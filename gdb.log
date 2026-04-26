@@ -1,0 +1,175 @@
+ sudo gdb -p 12788
+[sudo] password for radxa: 
+GNU gdb (Debian 13.1-3) 13.1
+Copyright (C) 2023 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "aarch64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word".
+Attaching to process 12788
+[New LWP 12789]
+[New LWP 12790]
+[New LWP 12791]
+[New LWP 12792]
+[New LWP 12793]
+[New LWP 12833]
+[New LWP 12834]
+[New LWP 12835]
+[New LWP 12836]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+0x0000ffffb228e834 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+(gdb) set logging file gdb.log
+(gdb) set logging on
+Warning: 'set logging on', an alias for the command 'set logging enabled', is deprecated.
+Use 'set logging enabled on'.
+
+Copying output to gdb.log.
+Copying debug output to gdb.log.
+(gdb) thread apply all bt
+
+Thread 10 (Thread 0xffff7f467fc0 (LWP 12836) "ReadVideo"):
+#0  0x0000ffffb228e834 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb2291388 in pthread_cond_wait () from /lib/aarch64-linux-gnu/libc.so.6
+#2  0x0000ffffb45493fc in mpp_dec_advanced_thread(void*) () from /usr/local/lib/librockchip_mpp.so.1
+#3  0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#4  0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 9 (Thread 0xffff7fc77fc0 (LWP 12835) "WriteVideo"):
+#0  0x0000ffffb22c6ce0 in clock_nanosleep () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb22cbcac in nanosleep () from /lib/aarch64-linux-gnu/libc.so.6
+#2  0x0000aaaad4e2ac3c in std::this_thread::sleep_for<long, std::ratio<1l, 1000l> > (__rtime=...) at /usr/include/c++/12/bits/this_thread_sleep.h:80
+#3  0x0000aaaad4e28838 in Thread_WriteVideo (writer=...) at /home/radxa/DMA/main.cpp:422
+#4  0x0000aaaad4e3218c in std::__invoke_impl<void, void (*)(cv::VideoWriter&), std::reference_wrapper<cv::VideoWriter> > (__f=@0xaaaaf9c23870: 0xaaaad4e28660 <Thread_WriteVideo(cv::VideoWriter&)>) at /usr/include/c++/12/bits/invoke.h:61
+#5  0x0000aaaad4e31ea8 in std::__invoke<void (*)(cv::VideoWriter&), std::reference_wrapper<cv::VideoWriter> > (__fn=@0xaaaaf9c23870: 0xaaaad4e28660 <Thread_WriteVideo(cv::VideoWriter&)>) at /usr/include/c++/12/bits/invoke.h:96
+#6  0x0000aaaad4e31d00 in std::thread::_Invoker<std::tuple<void (*)(cv::VideoWriter&), std::reference_wrapper<cv::VideoWriter> > >::_M_invoke<0ul, 1ul> (this=0xaaaaf9c23868) at /usr/include/c++/12/bits/std_thread.h:252
+#7  0x0000aaaad4e31c78 in std::thread::_Invoker<std::tuple<void (*)(cv::VideoWriter&), std::reference_wrapper<cv::VideoWriter> > >::operator() (this=0xaaaaf9c23868) at /usr/include/c++/12/bits/std_thread.h:259
+#8  0x0000aaaad4e31bd4 in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)(cv::VideoWriter&), std::reference_wrapper<cv::VideoWriter> > > >::_M_run (this=0xaaaaf9c23860) at /usr/include/c++/12/bits/std_thread.h:210
+#9  0x0000ffffb257e9dc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#10 0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#11 0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 8 (Thread 0xffff98b57fc0 (LWP 12834) "Aggregator"):
+#0  0x0000ffffb2296ae8 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000aaaad4e2954c in __gthread_mutex_unlock (__mutex=0xaaaad4e70880 <g_SafeQueueRead+88>) at /usr/include/aarch64--Type <RET> for more, q to quit, c to continue without paging--
+-linux-gnu/c++/12/bits/gthr-default.h:779
+#2  0x0000aaaad4e2977c in std::mutex::unlock (this=0xaaaad4e70880 <g_SafeQueueRead+88>) at /usr/include/c++/12/bits/std_mutex.h:118
+#3  0x0000aaaad4e2a150 in std::lock_guard<std::mutex>::~lock_guard (this=0xffff98b56a28, __in_chrg=<optimized out>) at /usr/include/c++/12/bits/std_mutex.h:235
+#4  0x0000aaaad4e2a69c in SafeQueue<FrameData>::empty (this=0xaaaad4e70828 <g_SafeQueueRead>) at /home/radxa/DMA/SafeQueue.h:57
+#5  0x0000aaaad4e2836c in aggregatorThreadFunc (gthreadpool=...) at /home/radxa/DMA/main.cpp:283
+#6  0x0000aaaad4e3221c in std::__invoke_impl<void, void (*)(ThreadPool&), std::reference_wrapper<ThreadPool> > (__f=@0xaaaaf9c23510: 0xaaaad4e28270 <aggregatorThreadFunc(ThreadPool&)>) at /usr/include/c++/12/bits/invoke.h:61
+#7  0x0000aaaad4e31f44 in std::__invoke<void (*)(ThreadPool&), std::reference_wrapper<ThreadPool> > (__fn=@0xaaaaf9c23510: 0xaaaad4e28270 <aggregatorThreadFunc(ThreadPool&)>) at /usr/include/c++/12/bits/invoke.h:96
+#8  0x0000aaaad4e31d4c in std::thread::_Invoker<std::tuple<void (*)(ThreadPool&), std::reference_wrapper<ThreadPool> > >::_M_invoke<0ul, 1ul> (this=0xaaaaf9c23508) at /usr/include/c++/12/bits/std_thread.h:252
+#9  0x0000aaaad4e31c98 in std::thread::_Invoker<std::tuple<void (*)(ThreadPool&), std::reference_wrapper<ThreadPool> > >::operator() (this=0xaaaaf9c23508) at /usr/include/c++/12/bits/std_thread.h:259
+#10 0x0000aaaad4e31bf8 in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)(ThreadPool&), std::reference_wrapper<ThreadPool> > > >::_M_run (this=0xaaaaf9c23500) at /usr/include/c++/12/bits/std_thread.h:210
+#11 0x0000ffffb257e9dc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#12 0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#13 0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 7 (Thread 0xffff99367fc0 (LWP 12833) "ReadVideo"):
+#0  0x0000ffffb22f1bfc in poll () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000aaaad4e27ee4 in Thread_ReadVideo (state=..., fd=@0xffffc269262c: 41, g_SafeQueueWrite=..., img_index=@0xffffc269247c: 9952, cap_mutex=..., finished=...) at /home/radxa/DMA/main.cpp:160
+#2  0x0000aaaad4e323bc in std::__invoke_impl<void, void (*)(app_state_t&, int&, SafeQueue<FrameData>&, int&, std::mutex&, std::atomic<bool>&), std::reference_wrapper<app_state_t>, std::reference_wrapper<int>, std::reference_wrapper<SafeQueue<FrameData> >, std::reference_wrapper<int>, std::reference_wrapper<std::mutex>, std::reference_wrapper<std::atomic<bool> > > (__f=@0xaaaaf9c1fd48: 0xaaaad4e27e2c <Thread_ReadVideo(app_state_t&, int&, SafeQueue<FrameData>&, int&, std::mutex&, std::atomic<bool>&)>) at /usr/include/c++/12/bits/invoke.h:61
+#3  0x0000aaaad4e320f0 in std::__invoke<void (*)(app_state_t&, int&, SafeQueue<FrameData>&, int&, std::mutex&, std::at--Type <RET> for more, q to quit, c to continue without paging--
+omic<bool>&), std::reference_wrapper<app_state_t>, std::reference_wrapper<int>, std::reference_wrapper<SafeQueue<FrameData> >, std::reference_wrapper<int>, std::reference_wrapper<std::mutex>, std::reference_wrapper<std::atomic<bool> > > (__fn=@0xaaaaf9c1fd48: 0xaaaad4e27e2c <Thread_ReadVideo(app_state_t&, int&, SafeQueue<FrameData>&, int&, std::mutex&, std::atomic<bool>&)>) at /usr/include/c++/12/bits/invoke.h:96
+#4  0x0000aaaad4e31e04 in std::thread::_Invoker<std::tuple<void (*)(app_state_t&, int&, SafeQueue<FrameData>&, int&, std::mutex&, std::atomic<bool>&), std::reference_wrapper<app_state_t>, std::reference_wrapper<int>, std::reference_wrapper<SafeQueue<FrameData> >, std::reference_wrapper<int>, std::reference_wrapper<std::mutex>, std::reference_wrapper<std::atomic<bool> > > >::_M_invoke<0ul, 1ul, 2ul, 3ul, 4ul, 5ul, 6ul> (this=0xaaaaf9c1fd18) at /usr/include/c++/12/bits/std_thread.h:252
+#5  0x0000aaaad4e31cb8 in std::thread::_Invoker<std::tuple<void (*)(app_state_t&, int&, SafeQueue<FrameData>&, int&, std::mutex&, std::atomic<bool>&), std::reference_wrapper<app_state_t>, std::reference_wrapper<int>, std::reference_wrapper<SafeQueue<FrameData> >, std::reference_wrapper<int>, std::reference_wrapper<std::mutex>, std::reference_wrapper<std::atomic<bool> > > >::operator() (this=0xaaaaf9c1fd18) at /usr/include/c++/12/bits/std_thread.h:259
+#6  0x0000aaaad4e31c1c in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (*)(app_state_t&, int&, SafeQueue<FrameData>&, int&, std::mutex&, std::atomic<bool>&), std::reference_wrapper<app_state_t>, std::reference_wrapper<int>, std::reference_wrapper<SafeQueue<FrameData> >, std::reference_wrapper<int>, std::reference_wrapper<std::mutex>, std::reference_wrapper<std::atomic<bool> > > > >::_M_run (this=0xaaaaf9c1fd10) at /usr/include/c++/12/bits/std_thread.h:210
+#7  0x0000ffffb257e9dc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#8  0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#9  0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 6 (Thread 0xffff99cdffc0 (LWP 12793) "main"):
+#0  0x0000ffffb228e834 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb2291388 in pthread_cond_wait () from /lib/aarch64-linux-gnu/libc.so.6
+#2  0x0000ffffb4543ed4 in mpp_enc_thread () from /usr/local/lib/librockchip_mpp.so.1
+#3  0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#4  0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 5 (Thread 0xffff9a6b3fc0 (LWP 12792) "worker"):
+#0  0x0000ffffb228e834 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb2291388 in pthread_cond_wait () from /lib/aarch64-linux-gnu/libc.so.6
+--Type <RET> for more, q to quit, c to continue without paging--
+#2  0x0000aaaad4e33164 in std::condition_variable::wait<ThreadPool::worker(int)::<lambda()> >(std::unique_lock<std::mutex> &, struct {...}) (this=0xaaaad4e707d8 <gthreadpool+152>, __lock=..., __p=...) at /usr/include/c++/12/condition_variable:102
+#3  0x0000aaaad4e32d64 in ThreadPool::worker (this=0xaaaad4e70740 <gthreadpool>, id=3) at /home/radxa/DMA/thread_pool.cpp:114
+#4  0x0000aaaad4e3a430 in std::__invoke_impl<void, void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__f=@0xaaaaf9bba598: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>, __t=@0xaaaaf9bba590: 0xaaaad4e70740 <gthreadpool>) at /usr/include/c++/12/bits/invoke.h:74
+#5  0x0000aaaad4e3a334 in std::__invoke<void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__fn=@0xaaaaf9bba598: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>) at /usr/include/c++/12/bits/invoke.h:96
+#6  0x0000aaaad4e3a200 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::_M_invoke<0ul, 1ul, 2ul> (this=0xaaaaf9bba588) at /usr/include/c++/12/bits/std_thread.h:252
+#7  0x0000aaaad4e3a124 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::operator() (this=0xaaaaf9bba588) at /usr/include/c++/12/bits/std_thread.h:259
+#8  0x0000aaaad4e39d8c in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> > >::_M_run (this=0xaaaaf9bba580) at /usr/include/c++/12/bits/std_thread.h:210
+#9  0x0000ffffb257e9dc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#10 0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#11 0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 4 (Thread 0xffff9aec3fc0 (LWP 12791) "worker"):
+#0  0x0000ffffb228e834 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb2291388 in pthread_cond_wait () from /lib/aarch64-linux-gnu/libc.so.6
+#2  0x0000aaaad4e33164 in std::condition_variable::wait<ThreadPool::worker(int)::<lambda()> >(std::unique_lock<std::mutex> &, struct {...}) (this=0xaaaad4e707d8 <gthreadpool+152>, __lock=..., __p=...) at /usr/include/c++/12/condition_variable:102
+#3  0x0000aaaad4e32d64 in ThreadPool::worker (this=0xaaaad4e70740 <gthreadpool>, id=2) at /home/radxa/DMA/thread_pool.cpp:114
+#4  0x0000aaaad4e3a430 in std::__invoke_impl<void, void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__f=@0xaaaaf9bba2c8: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>, __t=@0xaaaaf9bba2c0: 0xaaaad4e70740 <gthreadpool>) at /usr/include/c++/12/bits/invoke.h:74
+--Type <RET> for more, q to quit, c to continue without paging--
+#5  0x0000aaaad4e3a334 in std::__invoke<void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__fn=@0xaaaaf9bba2c8: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>) at /usr/include/c++/12/bits/invoke.h:96
+#6  0x0000aaaad4e3a200 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::_M_invoke<0ul, 1ul, 2ul> (this=0xaaaaf9bba2b8) at /usr/include/c++/12/bits/std_thread.h:252
+#7  0x0000aaaad4e3a124 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::operator() (this=0xaaaaf9bba2b8) at /usr/include/c++/12/bits/std_thread.h:259
+#8  0x0000aaaad4e39d8c in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> > >::_M_run (this=0xaaaaf9bba2b0) at /usr/include/c++/12/bits/std_thread.h:210
+#9  0x0000ffffb257e9dc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#10 0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#11 0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 3 (Thread 0xffff9b6d3fc0 (LWP 12790) "worker"):
+#0  0x0000ffffb22f3bd0 in ioctl () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb49a0d20 in ?? () from /home/radxa/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
+#2  0x0000ffffb4bb5fcc in ?? () from /home/radxa/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
+#3  0x0000ffffb4baeda0 in ?? () from /home/radxa/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
+#4  0x0000ffffb49c6f20 in ?? () from /home/radxa/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
+#5  0x0000ffffb49ca368 in ?? () from /home/radxa/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
+#6  0x0000ffffb4818b74 in rknn_run () from /home/radxa/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
+#7  0x0000aaaad4e3b0c4 in Yolov5s::inference_zero_copy (this=0xaaaaf9abddc0, raw_w=1280, raw_h=720, group=0xffff9b6d2c24) at /home/radxa/DMA/yolov5s.cpp:228
+#8  0x0000aaaad4e32ed8 in ThreadPool::worker (this=0xaaaad4e70740 <gthreadpool>, id=1) at /home/radxa/DMA/thread_pool.cpp:144
+#9  0x0000aaaad4e3a430 in std::__invoke_impl<void, void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__f=@0xaaaaf9bc2c98: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>, __t=@0xaaaaf9bc2c90: 0xaaaad4e70740 <gthreadpool>) at /usr/include/c++/12/bits/invoke.h:74
+#10 0x0000aaaad4e3a334 in std::__invoke<void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__fn=@0xaaaaf9bc2c98: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>) at /usr/include/c++/12/bits/invoke.h:96
+#11 0x0000aaaad4e3a200 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::_--Type <RET> for more, q to quit, c to continue without paging--
+M_invoke<0ul, 1ul, 2ul> (this=0xaaaaf9bc2c88) at /usr/include/c++/12/bits/std_thread.h:252
+#12 0x0000aaaad4e3a124 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::operator() (this=0xaaaaf9bc2c88) at /usr/include/c++/12/bits/std_thread.h:259
+#13 0x0000aaaad4e39d8c in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> > >::_M_run (this=0xaaaaf9bc2c80) at /usr/include/c++/12/bits/std_thread.h:210
+#14 0x0000ffffb257e9dc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#15 0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#16 0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+
+Thread 2 (Thread 0xffff9bee3fc0 (LWP 12789) "worker"):
+#0  0x0000ffffb228e834 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb2291388 in pthread_cond_wait () from /lib/aarch64-linux-gnu/libc.so.6
+#2  0x0000aaaad4e33164 in std::condition_variable::wait<ThreadPool::worker(int)::<lambda()> >(std::unique_lock<std::mutex> &, struct {...}) (this=0xaaaad4e707d8 <gthreadpool+152>, __lock=..., __p=...) at /usr/include/c++/12/condition_variable:102
+#3  0x0000aaaad4e32d64 in ThreadPool::worker (this=0xaaaad4e70740 <gthreadpool>, id=0) at /home/radxa/DMA/thread_pool.cpp:114
+#4  0x0000aaaad4e3a430 in std::__invoke_impl<void, void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__f=@0xaaaaf9bb8078: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>, __t=@0xaaaaf9bb8070: 0xaaaad4e70740 <gthreadpool>) at /usr/include/c++/12/bits/invoke.h:74
+#5  0x0000aaaad4e3a334 in std::__invoke<void (ThreadPool::*)(int), ThreadPool*, unsigned long> (__fn=@0xaaaaf9bb8078: (void (ThreadPool::*)(ThreadPool * const, int)) 0xaaaad4e32c20 <ThreadPool::worker(int)>) at /usr/include/c++/12/bits/invoke.h:96
+#6  0x0000aaaad4e3a200 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::_M_invoke<0ul, 1ul, 2ul> (this=0xaaaaf9bb8068) at /usr/include/c++/12/bits/std_thread.h:252
+#7  0x0000aaaad4e3a124 in std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> >::operator() (this=0xaaaaf9bb8068) at /usr/include/c++/12/bits/std_thread.h:259
+#8  0x0000aaaad4e39d8c in std::thread::_State_impl<std::thread::_Invoker<std::tuple<void (ThreadPool::*)(int), ThreadPool*, unsigned long> > >::_M_run (this=0xaaaaf9bb8060) at /usr/include/c++/12/bits/std_thread.h:210
+#9  0x0000ffffb257e9dc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#10 0x0000ffffb2292030 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#11 0x0000ffffb22fbf1c in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+--Type <RET> for more, q to quit, c to continue without paging--
+
+Thread 1 (Thread 0xffffb26cb020 (LWP 12788) "main"):
+#0  0x0000ffffb228e834 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#1  0x0000ffffb2293950 in ?? () from /lib/aarch64-linux-gnu/libc.so.6
+#2  0x0000ffffb257ea80 in std::thread::join() () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#3  0x0000aaaad4e290a0 in main () at /home/radxa/DMA/main.cpp:602
+(gdb) 
+(gdb) 
+(gdb) set logging off
+Warning: 'set logging off', an alias for the command 'set logging enabled', is deprecated.
+Use 'set logging enabled off'.
+
+Done logging to gdb.log.
+(gdb) set logging enabled off
