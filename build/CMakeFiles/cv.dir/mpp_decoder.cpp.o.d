@@ -1,5 +1,5 @@
-CMakeFiles/cv.dir/mpp_decoder.cpp.o: /home/radxa/DMA/mpp_decoder.cpp \
- /usr/include/stdc-predef.h /home/radxa/DMA/mpp_decoder.h \
+CMakeFiles/cv.dir/mpp_decoder.cpp.o: /home/radxa/Dev/DMA/mpp_decoder.cpp \
+ /usr/include/stdc-predef.h /home/radxa/Dev/DMA/mpp_decoder.h \
  /usr/include/stdio.h \
  /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -236,7 +236,7 @@ CMakeFiles/cv.dir/mpp_decoder.cpp.o: /home/radxa/DMA/mpp_decoder.cpp \
  /usr/include/c++/12/bits/unique_lock.h \
  /usr/include/opencv4/opencv2/core/optim.hpp \
  /usr/include/opencv4/opencv2/core/ovx.hpp \
- /usr/include/opencv4/opencv2/core/cvdef.h /home/radxa/DMA/mpp.h \
+ /usr/include/opencv4/opencv2/core/cvdef.h /home/radxa/Dev/DMA/mpp.h \
  /usr/include/c++/12/stdlib.h /usr/include/fcntl.h \
  /usr/include/aarch64-linux-gnu/bits/fcntl.h \
  /usr/include/aarch64-linux-gnu/bits/fcntl-linux.h \
@@ -261,58 +261,52 @@ CMakeFiles/cv.dir/mpp_decoder.cpp.o: /home/radxa/DMA/mpp_decoder.cpp \
  /usr/include/aarch64-linux-gnu/bits/mman-linux.h \
  /usr/include/aarch64-linux-gnu/bits/mman-shared.h \
  /usr/include/aarch64-linux-gnu/bits/mman_ext.h \
- /usr/local/include/rockchip/rk_mpi.h \
- /usr/local/include/rockchip/rk_mpi_cmd.h \
- /usr/local/include/rockchip/rk_vdec_cmd.h \
- /usr/local/include/rockchip/rk_type.h \
- /usr/local/include/rockchip/mpp_err.h \
- /usr/local/include/rockchip/rk_vdec_cfg.h \
- /usr/local/include/rockchip/rk_venc_cmd.h \
- /usr/local/include/rockchip/mpp_frame.h \
- /usr/local/include/rockchip/mpp_buffer.h \
- /usr/local/include/rockchip/mpp_meta.h \
- /usr/local/include/rockchip/mpp_packet.h \
- /usr/local/include/rockchip/rk_venc_rc.h \
- /usr/local/include/rockchip/rk_venc_cfg.h \
- /usr/local/include/rockchip/rk_venc_ref.h \
- /usr/local/include/rockchip/mpp_task.h \
- /usr/local/include/rockchip/rk_type.h \
- /usr/local/include/rockchip/mpp_rc_api.h \
- /usr/local/include/rockchip/mpp_rc_defs.h \
- /usr/local/include/rockchip/rk_venc_kcfg.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_env.h \
- /usr/local/include/rockchip/rk_type.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_mem.h \
- /usr/local/include/rockchip/mpp_err.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_time.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_thread.h /usr/include/semaphore.h \
+ /home/radxa/Dev/DMA/mpp/inc/rockchip/rk_type.h \
+ /usr/include/rockchip/rk_mpi.h /usr/include/rockchip/rk_mpi_cmd.h \
+ /usr/include/rockchip/rk_vdec_cmd.h /usr/include/rockchip/rk_type.h \
+ /usr/include/rockchip/mpp_err.h /usr/include/rockchip/rk_vdec_cfg.h \
+ /usr/include/rockchip/rk_venc_cmd.h /usr/include/rockchip/mpp_frame.h \
+ /usr/include/rockchip/mpp_buffer.h /usr/include/rockchip/mpp_meta.h \
+ /usr/include/rockchip/mpp_packet.h /usr/include/rockchip/rk_venc_rc.h \
+ /usr/include/rockchip/rk_venc_cfg.h /usr/include/rockchip/rk_venc_ref.h \
+ /usr/include/rockchip/mpp_task.h /usr/include/rockchip/mpp_rc_api.h \
+ /usr/include/rockchip/mpp_rc_defs.h \
+ /home/radxa/Dev/DMA/mpp/inc/rockchip/rk_venc_kcfg.h \
+ /home/radxa/Dev/DMA/mpp/inc/rockchip/rk_type.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_err.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_env.h \
+ /home/radxa/Dev/DMA/mpp/inc/rk_type.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_mem.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_time.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_thread.h /usr/include/semaphore.h \
  /usr/include/aarch64-linux-gnu/bits/semaphore.h \
  /usr/include/aarch64-linux-gnu/sys/time.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_debug.h \
- /usr/local/include/rockchip/mpp_log.h \
- /usr/local/include/rockchip/mpp_log_def.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_debug.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_common.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_soc.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_dev_defs.h \
- /home/radxa/mpp/mpp/mpp/utils/utils.h \
- /usr/local/include/rockchip/mpp_frame.h \
- /home/radxa/mpp/mpp/mpp/utils/mpi_enc_utils.h \
- /usr/local/include/rockchip/rk_venc_cmd.h \
- /home/radxa/mpp/mpp/mpp/utils/iniparser.h \
- /home/radxa/mpp/mpp/mpp/utils/dictionary.h \
- /home/radxa/mpp/mpp/mpp/utils/camera_source.h \
- /home/radxa/mpp/mpp/mpp/utils/mpp_enc_roi_utils.h \
- /usr/local/include/rockchip/mpp_rc_api.h /usr/include/c++/12/iostream \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/rga.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/drmrga.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/rga.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_version.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_type.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_common.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_buffer.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_single.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_task.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_mpi.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/RgaUtils.h
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_debug.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_log.h \
+ /home/radxa/Dev/DMA/mpp/inc/rk_type.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_log_def.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_debug.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_common.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_soc.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_dev_defs.h \
+ /home/radxa/Dev/DMA/mpp/utils/utils.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_frame.h \
+ /home/radxa/Dev/DMA/mpp/utils/mpi_enc_utils.h \
+ /home/radxa/Dev/DMA/mpp/inc/rk_venc_cmd.h \
+ /home/radxa/Dev/DMA/mpp/utils/iniparser.h \
+ /home/radxa/Dev/DMA/mpp/utils/dictionary.h \
+ /home/radxa/Dev/DMA/mpp/utils/camera_source.h \
+ /home/radxa/Dev/DMA/mpp/utils/mpp_enc_roi_utils.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_rc_api.h /usr/include/c++/12/iostream \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/rga.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/drmrga.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/rga.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_version.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_type.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_common.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_buffer.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_single.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_task.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_mpi.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/RgaUtils.h

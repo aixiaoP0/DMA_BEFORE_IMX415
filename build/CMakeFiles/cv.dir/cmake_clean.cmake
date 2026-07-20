@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cv.dir/dmabuf.c.o"
   "CMakeFiles/cv.dir/dmabuf.c.o.d"
+  "CMakeFiles/cv.dir/h264_distributor.c.o"
+  "CMakeFiles/cv.dir/h264_distributor.c.o.d"
   "CMakeFiles/cv.dir/main.cpp.o"
   "CMakeFiles/cv.dir/main.cpp.o.d"
   "CMakeFiles/cv.dir/mpp.c.o"

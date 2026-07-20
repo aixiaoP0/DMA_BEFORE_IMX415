@@ -1,0 +1,135 @@
+我现在想测试我的理论输出帧率，但是我的摄像头最高为30帧，我该如何得到理论帧率呢
+要测试整个管线的**理论极限帧率**（即系统处理能力的上限），最大的阻碍就是摄像头的物理限制（30 FPS）。如果进水管的水流只有 30L/s，那么无论后端的排水管有多粗，你测出来的吞吐量最高也只有 30。
+
+为了打破这个物理限制，我们可以使用 **“单帧缓存无限循环法” (Cache and Loop)**。
+**核心思路**：修改读取线程，让它正常从摄像头抓取**第一帧**图像，将其保存在内存中。然后立刻抛弃摄像头，用一个死循环把这帧数据疯狂地“喂”给 MPP 硬件解码器和后续管线。这样就能模拟出一个“无限帧率”的虚拟摄像头，逼迫你的 NPU、RGA 和 MPP 编码器火力全开，测出真实的理论上限。
+
+以下是具体的操作步骤：
+
+### 第一步：修改 `main.cpp` 中的 `Thread_ReadVideo`
+
+将你原来的读取线程代码替换为以下版本。它会在捕获第一帧后，切入“极限测速”模式：
+
+```cpp
+// 读取视频的线程函数 (极限测速版)
+// 注意：参数名我改成了 target_queue 避免与全局变量混淆，实际传入的还是 g_SafeQueueRead
+void Thread_ReadVideo(app_state_t& state, int& fd, SafeQueue<FrameData>& target_queue, int& img_index, mutex& cap_mutex, std::atomic<bool>& finished){
+    int ret;
+    dmabuf_error_t dmabuf_ret;
+    MppDecoder decoder;
+    
+    if (decoder.init(1280, 720) != 0) {
+        printf("Failed to init MPP decoder\n");
+    }
+    cv::Mat bgr_frame(720, 1280, CV_8UC3);
+
+    // --- 【测速专用：缓存变量】 ---
+    std::vector<uint8_t> cached_mjpeg;
+    bool has_cached_frame = false;
+    // ----------------------------
+
+    while(true)
+    {
+        FrameData frame_temp;
+        
+        // 1. 如果还没缓存，就正常从摄像头拉流（仅拉取一次）
+        if (!has_cached_frame) {
+            struct pollfd poll_fds[1];
+            poll_fds[0].fd = fd;
+            poll_fds[0].events = POLLIN;
+            int poll_ret = poll(poll_fds, 1, 5000);
+            if (poll_ret <= 0) continue;
+
+            struct v4l2_buffer buf;
+            memset(&buf, 0, sizeof(buf));
+            buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+            buf.memory = V4L2_MEMORY_DMABUF;
+
+            if (ioctl(fd, VIDIOC_DQBUF, &buf) < 0) break;
+
+            dmabuf_buffer_t *dmabuf_buffer = &state.dmabuf_buffer[buf.index];
+            my_dmabuf_sync_start(my_dmabuf_get_fd(dmabuf_buffer));
+
+            // 将摄像头这帧真实的 MJPEG 数据拷贝到内存缓存中
+            size_t mjpeg_size = buf.bytesused;
+            cached_mjpeg.resize(mjpeg_size);
+            memcpy(cached_mjpeg.data(), my_dmabuf_get_mapped_addr(dmabuf_buffer), mjpeg_size);
+            
+            my_dmabuf_sync_stop(my_dmabuf_get_fd(dmabuf_buffer));
+
+            // 将“空盘”还给 V4L2，然后不再理会摄像头了
+            buf.length = state.buffer_infos[buf.index].size;
+            buf.m.fd = state.buffer_infos[buf.index].dmabuf_fd;
+            ioctl(fd, VIDIOC_QBUF, &buf);
+
+            has_cached_frame = true;
+            printf("\033[1;33m成功捕获一帧真实数据 (大小: %zu bytes)，断开摄像头，开始极限测速...\033[0m\n", mjpeg_size);
+        }
+
+        // 2. 极限循环：疯狂向管线注入这一帧数据
+        // 我们借用已经申请好的第 0 个 DMABUF 作为搬运工
+        dmabuf_buffer_t *benchmark_buf = &state.dmabuf_buffer[0];
+        int bench_fd = my_dmabuf_get_fd(benchmark_buf);
+
+        // 将缓存的数据拷贝进 DMABUF (模拟摄像头写入)
+        my_dmabuf_sync_start(bench_fd);
+        memcpy(my_dmabuf_get_mapped_addr(benchmark_buf), cached_mjpeg.data(), cached_mjpeg.size());
+        my_dmabuf_sync_stop(bench_fd);
+
+        // 交给 MPP 硬件解码
+        MppFrame frame = decoder.decode_by_fd(bench_fd, cached_mjpeg.size());
+
+        if (frame) {
+            int width = mpp_frame_get_width(frame);
+            int height = mpp_frame_get_height(frame);
+            
+            if (bgr_frame.cols != width || bgr_frame.rows != height) {
+                bgr_frame.create(height, width, CV_8UC3);
+            }
+            
+            NV12_to_BGR_with_rga_by_dma(frame, bgr_frame);
+
+            frame_temp.frame = bgr_frame.clone(); 
+            frame_temp.index = img_index++;
+            frame_temp.mpp_frame = frame; 
+
+            // 压入队列。如果后续管线处理不过来，这里的 enqueue 会安全地阻塞(背压机制)
+            target_queue.enqueue(frame_temp);
+        } else {
+            printf("MPP Decode failed in benchmark loop\n");
+            std::this_thread::sleep_for(std::chrono::milliseconds(10)); // 失败时稍作休眠
+        }
+    }
+    decoder.deinit();
+}
+```
+
+### 第二步：为了保证测速准确，你必须做这两件事！
+
+在进行极限性能测试时，有两处地方会严重干扰测试结果，必须在 `main.cpp` 中调整：
+
+**1. 务必注释掉本地视频写入（重中之重）**
+SD卡或 eMMC 的磁盘 I/O 速度极慢。OpenCV 的 `writer.write` 会用纯 CPU 进行编码并写入磁盘，这会瞬间把你的帧率拉低到 20-30 帧左右，掩盖真实的硬件吞吐量。
+在 `Thread_WriteVideo` 中：
+
+```cpp
+// A.写入视频版本 (测速时务必注释掉！！！)
+// writer.write(output_FD.frame);
+
+// 使用MPP对NV12数据进行编码处理 (保留推流即可，这是硬编码，不占 CPU)
+process_frame(output_FD.nv12_data, output_FD.data_size);
+```
+
+**2. 缩小队列容量，避免挤压爆发**
+由于现在生产速度极快，100 的队列会瞬间占满系统大量内存，建议将读写队列容量缩小为 10，让生产和消费的节奏严密贴合：
+
+```cpp
+// 在 main.cpp 的全局变量处：
+SafeQueue<FrameData> g_SafeQueueRead(10);  // 改为 10
+SafeQueue<FrameData> g_SafeQueueWrite(10); // 改为 10
+```
+
+### 测速预期
+
+按照上述方法修改后运行，系统会打印“*成功捕获一帧真实数据...开始极限测速*”。
+随后你在 `Thread_WriteVideo` 看到的那句 `[Performance] End-to-End Real FPS: XX`，就是你的 RK3588 在包含 “MPP硬件解码 -\> RGA图像缩放 -\> 4核并发 NPU 推理 -\> YOLO后处理 -\> RGA格式转换 -\> MPP硬件编码推流” 全链路协同工作下的**绝对理论极限帧率**。

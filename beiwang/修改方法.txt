@@ -1,0 +1,144 @@
+这是一个非常棒的工程重构任务！从“USB免驱摄像头（UVC）”迁移到“板载 MIPI 摄像头 + ISP”，意味着你正在从**“应用层纯软件处理”**迈向**“利用 SoC 硬件加速流水线”**的高级阶段。
+
+在修改代码之前，我们必须先在脑海中完成**架构认知的转变**：
+* **你原来的架构（USB）：** 摄像头输出 MJPEG 压缩流 -> CPU读入 -> **调用 MPP 硬件解码器解压成 NV12** -> RGA 转 BGR -> 推理。
+* **你现在的架构（IMX415）：** IMX415 输出 RAW -> **ISP 硬件直接处理并输出纯净的 NV12** -> RGA 转 BGR -> 推理。
+
+**核心结论：** 你现在的架构**根本不需要 MPP 解码器了**！ISP 已经帮你把最重的工作做完了。
+
+下面我们需要对 `main.cpp` 进行“大换血”，详细的修改位置、原因和代码如下：
+
+---
+
+### 修改一：去除 MPP 解码器及其依赖
+**原因：** ISP 输出的直接就是未经压缩的 YUV420 (NV12) 像素数据，没有视频压缩编码（如 H.264/MJPEG），因此不需要解码。
+**怎么修改：**
+1.  删除包含文件：`#include "mpp_decoder.h"`。
+2.  修改 `FrameData` 结构体，删掉 `MppFrame`，改为存放直接的内存指针或 FD：
+    ```cpp
+    struct FrameData {
+        cv::Mat frame;               // OpenCV图像容器（BGR格式）
+        int index;                   // 帧索引
+        int dmabuf_fd = -1;          // 【修改】记录当前帧所在的 DMABUF fd
+        uint8_t* nv12_data = nullptr;
+        int data_size = 0;
+    };
+    ```
+3.  在 `Thread_ReadVideo` 线程中，**删掉所有与 `MppDecoder decoder;` 相关的初始化、解码和销毁代码**。
+
+---
+
+### 修改二：更改设备节点为 ISP Mainpath
+**原因：** `/dev/video0` 通常是给 USB 摄像头准备的。IMX415 经过 ISP 后，主通道（支持 4K、NV12）的节点通常是 `/dev/video11`（具体依系统 `media-ctl` 查询为准）。
+**怎么修改（在 `main` 函数中）：**
+```cpp
+    // 【修改点】打开 ISP 主通道节点
+    int fd = open("/dev/video11", O_RDWR | O_NONBLOCK); 
+```
+
+---
+
+### 修改三：V4L2 格式切换为“多平面（Multi-planar）”与 NV12
+**原因：** Rockchip 的 ISP 驱动为了高效管理内存，强制规定必须使用 V4L2 的**多平面 API (`_MPLANE`)**。原来的单平面结构体 (`fmt.fmt.pix`) 无法与 ISP 握手，必须改为 (`fmt.fmt.pix_mp`)。
+**怎么修改（在 `main` 函数中替换相关代码）：**
+```cpp
+    // 3. 设置摄像头格式：NV12、多平面
+    struct v4l2_format fmt;
+    memset(&fmt, 0, sizeof(fmt));
+    // 【核心修改】必须带有 _MPLANE
+    fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE; 
+    fmt.fmt.pix_mp.width = width;
+    fmt.fmt.pix_mp.height = height;
+    // 【核心修改】直接请求 NV12 (YUV420SP)
+    fmt.fmt.pix_mp.pixelformat = V4L2_PIX_FMT_NV12; 
+    fmt.fmt.pix_mp.field = V4L2_FIELD_ANY;
+
+    ret = ioctl(fd, VIDIOC_S_FMT, &fmt);
+    if (ret == -1) {
+        perror("set video format");
+        return -1;
+    }
+    // 注意：后续分配内存的大小要从 plane_fmt 里面取
+    int sizeimage = fmt.fmt.pix_mp.plane_fmt[0].sizeimage; 
+```
+
+---
+
+### 修改四：申请、入队(QBUF)与出队(DQBUF)的多平面适配
+**原因：** 因为类型改成了 `_MPLANE`，在调用 `VIDIOC_REQBUFS`、`VIDIOC_QBUF` 和 `VIDIOC_DQBUF` 时，`struct v4l2_buffer` 结构体必须带上 `m.planes` 数组指针。
+**怎么修改：**
+1.  **申请缓冲区（REQBUFS）：**
+    ```cpp
+    req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE; // 【修改】
+    req.memory = V4L2_MEMORY_DMABUF;
+    ```
+2.  **入队（QBUF）与出队（DQBUF）：**（在 `main` 函数初始化和 `Thread_ReadVideo` 循环中都要改）
+    ```cpp
+    // 每次定义 buf 时，必须配套定义 planes 数组
+    struct v4l2_buffer buf;
+    struct v4l2_plane planes[1]; // NV12 在 DMA 堆中通常分配为 1 个连续平面
+
+    memset(&buf, 0, sizeof(buf));
+    memset(&planes, 0, sizeof(planes));
+
+    buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE; // 【修改】
+    buf.memory = V4L2_MEMORY_DMABUF;
+    buf.m.planes = planes; // 【核心绑定】
+    buf.length = 1;        // 【核心修改】这里填的是 plane 的数量，而不是数据字节数！
+
+    // 对于 QBUF，需要给 plane 赋值：
+    buf.m.planes[0].m.fd = state.buffer_infos[i].dmabuf_fd;
+    buf.m.planes[0].length = state.buffer_infos[i].size;
+
+    ioctl(fd, VIDIOC_QBUF, &buf); // 或 DQBUF
+    ```
+
+---
+
+### 修改五：重构读取线程 (`Thread_ReadVideo`) 中的数据处理
+**原因：** 因为删除了 MPP 解码器，我们从 DQBUF 拿到的 `buffer_info.dmabuf_fd` 就是实实在在的、ISP 硬件生成好的 NV12 图像了。我们直接把它丢给 RGA 转成 BGR 给 OpenCV 推理用。
+**怎么修改（在 `Thread_ReadVideo` 中，替换掉原来 MPP 相关的代码）：**
+```cpp
+    // ... 前面的 poll 和 DQBUF 代码（记得加上 m.planes） ...
+
+    // 直接获取 NV12 数据的 DMA fd
+    int nv12_dma_fd = buffer_info.dmabuf_fd;
+
+    // === RGA 转换：NV12 (DMA FD) -> BGR888 (OpenCV Mat) ===
+    // 1. 将源 fd 包装成 rga buffer
+    rga_buffer_t src = wrapbuffer_fd(nv12_dma_fd, width, height, RK_FORMAT_YCbCr_420_SP);
+    // 2. 将目标 OpenCV Mat 包装成 rga buffer
+    rga_buffer_t dst = wrapbuffer_virtualaddr(bgr_frame.data, width, height, RK_FORMAT_BGR_888);
+    
+    // 3. 执行硬件颜色空间转换
+    int rga_ret = imcvtcolor(src, dst, RK_FORMAT_YCbCr_420_SP, RK_FORMAT_BGR_888);
+    if (rga_ret == IM_STATUS_SUCCESS) {
+        frame_temp.frame = bgr_frame.clone();
+        frame_temp.index = img_index++;
+        frame_temp.dmabuf_fd = nv12_dma_fd; // 传递 fd，供后续使用
+        
+        // 提取指针供推流编码使用（如果推流库支持 fd 输入更好，否则用 mapped_addr）
+        frame_temp.nv12_data = (uint8_t*)buffer_info.mapped_addr; 
+        frame_temp.data_size = buffer_info.size;
+
+        g_SafeQueueWrite.enqueue(frame_temp);
+    } else {
+        printf("RGA Convert Failed!\n");
+    }
+
+    // ... 后续的 QBUF 代码 ...
+```
+
+---
+
+### ⚠️ 最重要的运行时提醒
+经过上述修改，你的代码架构将变得异常精简且高效。但当你编译运行这套代码时，**请务必确保你在 Linux 后台运行了 RKAIQ 服务器**，否则你抓出来的画面会非常暗或者偏色严重！
+
+运行程序前的命令：
+```bash
+# 在后台启动 IMX415 的 3A 算法（自动曝光、白平衡等）
+rkaiq_3A_server -d /dev/video11 &
+
+# 然后再运行你的主程序
+./your_application
+```

@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__filesystem__directory_tree",
+      "WebFetch(domain:github.com)",
+      "Bash(cp /tmp/web-access/scripts/check-deps.mjs ~/.claude/skills/web-access/scripts/check-deps.mjs)",
+      "Bash(cp /tmp/web-access/scripts/find-url.mjs ~/.claude/skills/web-access/scripts/find-url.mjs)",
+      "Bash(cp /tmp/web-access/scripts/match-site.mjs ~/.claude/skills/web-access/scripts/match-site.mjs)",
+      "mcp__filesystem__search_files",
+      "mcp__filesystem__list_directory",
+      "mcp__filesystem__edit_file",
+      "Bash(python3 -c \"import pypdf; print\\('pypdf available'\\)\")",
+      "Bash(python3 -c \"import pdfminer; print\\('pdfminer available'\\)\")",
+      "Bash(python3 -c \"import PyPDF2; print\\('PyPDF2 available'\\)\")",
+      "Bash(python3 -c \"import pdfplumber; print\\('pdfplumber available'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python3 *)",
+      "Bash(/mingw64/bin/pdftotext -f 45 -l 66 \"E:/DMA/beiwang/八股.pdf\" -)",
+      "Bash(/mingw64/bin/pdftotext -f 25 -l 25 \"E:/DMA/beiwang/八股.pdf\" -)",
+      "mcp__filesystem__read_text_file"
+    ]
+  },
+  "outputStyle": "Explanatory"
+}

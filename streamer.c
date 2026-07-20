@@ -4,6 +4,7 @@
 #include "mpp.h"
 #include "rtmp.h"
 #include "streamer.h"
+#include "h264_distributor.h"
 /**
  * @brief 流媒体推送器上下文结构体
  * @details 整合MPP编码器上下文、RTMP推流上下文、SPS/PPS头信息及初始化状态
@@ -13,10 +14,27 @@ typedef struct StreamerContext{
     RtmpContext* rtmp_ctx;
     Spspps_header sps_header;
     int is_init;
+    int rtmp_enabled;
 }StreamerContext;
 
 // 全局流媒体推送器上下文实例
 static StreamerContext g_streamer_ctx = {0};
+
+static int streamer_write_frame(uint8_t *data, int size)
+{
+    if (!data || size <= 0) {
+        return 1;
+    }
+
+    // 先复用 MPP 输出的 Annex-B H.264 给 TCP/UDP/RTP。
+    h264_distributor_write(data, size);
+
+    // RTMP 是可选出口：没有 RTMP 服务时，不影响三协议客户端联调。
+    if (g_streamer_ctx.rtmp_enabled) {
+        return write_frame(data, size);
+    }
+    return 0;
+}
 
 /**
  * @brief 初始化流媒体推送器
@@ -51,7 +69,7 @@ int init_streamer(int width,int height,int fps, int birate,const char* rtmp_url)
     g_streamer_ctx.mpp_ctx->fps_out_den  = 1;                    // 输出帧率分母(固定帧率为1)
     g_streamer_ctx.mpp_ctx->bps          = birate;               // 编码码率(bps)
     g_streamer_ctx.mpp_ctx->gop_len      = fps * 2;              // GOP长度(帧率*2, 即2秒一个I帧)
-    g_streamer_ctx.mpp_ctx->write_frame  = write_frame;          // 帧写入回调函数
+    g_streamer_ctx.mpp_ctx->write_frame  = streamer_write_frame; // 编码后统一分发回调
     g_streamer_ctx.mpp_ctx->type         = MPP_VIDEO_CodingAVC;  // 编码格式: H.264
     g_streamer_ctx.mpp_ctx->fmt          = MPP_FMT_YUV420SP;     // 输入像素格式: YUV420SP(NV12)
     g_streamer_ctx.mpp_ctx->rc_mode      = MPP_ENC_RC_MODE_CBR;  // 码率控制模式: 恒定码率(CBR)
@@ -90,12 +108,19 @@ int init_streamer(int width,int height,int fps, int birate,const char* rtmp_url)
     g_streamer_ctx.rtmp_ctx->extradata     = g_streamer_ctx.sps_header.data;    // SPS/PPS原始数据
     g_streamer_ctx.rtmp_ctx->extradata_size = g_streamer_ctx.sps_header.size;   // SPS/PPS数据长度
     printf("初始化RTMP...\n");
-    // 3. 分配并初始化RTMP推流上下文
+    // 3. 先启动 TCP/UDP/RTP H.264 分发器。
+    // 分发器只复用 MPP 输出的 Annex-B 编码帧，不参与采集、推理或编码关键路径。
+    h264_distributor_start();
+    h264_distributor_set_header(g_streamer_ctx.sps_header.data, g_streamer_ctx.sps_header.size);
+
+    // 4. 分配并初始化RTMP推流上下文。RTMP 失败不阻断 TCP/UDP/RTP 联调。
     if (init_rtmp_streamer((char*)rtmp_url, g_streamer_ctx.rtmp_ctx) < 0) {
-        printf("Failed to initialize RTMP streamer\n");
-        return -1;
+        printf("Failed to initialize RTMP streamer, continue with TCP/UDP/RTP distributor only\n");
+        g_streamer_ctx.rtmp_enabled = 0;
+    } else {
+        printf("初始化RTMP成功\n");
+        g_streamer_ctx.rtmp_enabled = 1;
     }
-    printf("初始化RTMP成功\n");
 
     g_streamer_ctx.is_init = 1;
     return 0;
@@ -130,6 +155,8 @@ int process_frame(uint8_t *frame_data, int frame_size) {
  * @details 释放MPP编码器、SPS/PPS数据、RTMP上下文等资源
  */
 void close_streamer() {
+    h264_distributor_stop();
+
     //释放mpp
     if (g_streamer_ctx.mpp_ctx) {
         g_streamer_ctx.mpp_ctx->close(g_streamer_ctx.mpp_ctx);
@@ -148,4 +175,5 @@ void close_streamer() {
     }
     
     g_streamer_ctx.is_init = 0;
+    g_streamer_ctx.rtmp_enabled = 0;
 } 

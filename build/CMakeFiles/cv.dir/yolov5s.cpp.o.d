@@ -1,5 +1,5 @@
-CMakeFiles/cv.dir/yolov5s.cpp.o: /home/radxa/DMA/yolov5s.cpp \
- /usr/include/stdc-predef.h /home/radxa/DMA/yolov5s.h \
+CMakeFiles/cv.dir/yolov5s.cpp.o: /home/radxa/Dev/DMA/yolov5s.cpp \
+ /usr/include/stdc-predef.h /home/radxa/Dev/DMA/yolov5s.h \
  /usr/include/stdio.h \
  /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -152,18 +152,18 @@ CMakeFiles/cv.dir/yolov5s.cpp.o: /home/radxa/DMA/yolov5s.cpp \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
  /usr/include/c++/12/bits/istream.tcc \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/RgaUtils.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_version.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_type.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/rga.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_common.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_buffer.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_single.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_task.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/im2d_mpi.h \
- /home/radxa/DMA/3rdparty/rga/RK3588/include/rga.h \
- /home/radxa/DMA/post_process.h /usr/include/c++/12/vector \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/RgaUtils.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_version.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_type.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/rga.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_common.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_buffer.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_single.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_task.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/im2d_mpi.h \
+ /home/radxa/Dev/DMA/3rdparty/rga/RK3588/include/rga.h \
+ /home/radxa/Dev/DMA/post_process.h /usr/include/c++/12/vector \
  /usr/include/c++/12/bits/stl_uninitialized.h \
  /usr/include/c++/12/bits/stl_vector.h \
  /usr/include/c++/12/bits/stl_bvector.h \
@@ -263,5 +263,4 @@ CMakeFiles/cv.dir/yolov5s.cpp.o: /home/radxa/DMA/yolov5s.cpp \
  /usr/include/opencv4/opencv2/highgui.hpp \
  /usr/include/opencv4/opencv2/imgcodecs.hpp \
  /usr/include/opencv4/opencv2/videoio.hpp \
- /home/radxa/DMA/3rdparty/librknn_api/include/rknn_api.h \
- /home/radxa/chapter1/3rdparty/librknn_api/include/rknn_api.h
+ /home/radxa/Dev/DMA/3rdparty/librknn_api/include/rknn_api.h

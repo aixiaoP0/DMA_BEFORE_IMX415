@@ -28,6 +28,9 @@ default_target: all
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Command-line flag to silence nested $(MAKE).
 $(VERBOSE)MAKESILENT = -s
 
@@ -54,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/radxa/DMA
+CMAKE_SOURCE_DIR = /home/radxa/Dev/DMA
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/radxa/DMA/build
+CMAKE_BINARY_DIR = /home/radxa/Dev/DMA/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +84,14 @@ clean: CMakeFiles/cv.dir/clean
 CMakeFiles/cv.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cv.dir/build.make CMakeFiles/cv.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cv.dir/build.make CMakeFiles/cv.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target cv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12 "Built target cv"
 .PHONY : CMakeFiles/cv.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cv.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/DMA/build/CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/Dev/DMA/build/CMakeFiles 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/cv.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/DMA/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/Dev/DMA/build/CMakeFiles 0
 .PHONY : CMakeFiles/cv.dir/rule
 
 # Convenience name for target.

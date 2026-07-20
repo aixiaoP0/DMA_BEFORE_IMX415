@@ -1,0 +1,5 @@
+我们怎么进行初始化RKNN模型、NPU核心、张量属性、零拷贝内存，在yolov5s.cpp中编写的辅助函数也进行说明。
+以及我们获取张量属性的目的，在后面的工作起到了什么作用，
+在post_process.cpp中我们post_process和process_youhua的作用，实现的具体逻辑，以及该文件中的辅助函数进行说明。
+并补充后处理的基本知识，_int8输出 + scale + zp 还原真实概率.md，后处理post_process.c.md，后处理相关基础知识.md作为参考文件
+将你的回答生成md文件保存。

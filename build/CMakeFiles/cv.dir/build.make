@@ -27,6 +27,9 @@
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Command-line flag to silence nested $(MAKE).
 $(VERBOSE)MAKESILENT = -s
 
@@ -53,10 +56,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/radxa/DMA
+CMAKE_SOURCE_DIR = /home/radxa/Dev/DMA
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/radxa/DMA/build
+CMAKE_BINARY_DIR = /home/radxa/Dev/DMA/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/cv.dir/depend.make
@@ -70,144 +73,158 @@ include CMakeFiles/cv.dir/progress.make
 include CMakeFiles/cv.dir/flags.make
 
 CMakeFiles/cv.dir/main.cpp.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/main.cpp.o: /home/radxa/DMA/main.cpp
+CMakeFiles/cv.dir/main.cpp.o: /home/radxa/Dev/DMA/main.cpp
 CMakeFiles/cv.dir/main.cpp.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cv.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/main.cpp.o -MF CMakeFiles/cv.dir/main.cpp.o.d -o CMakeFiles/cv.dir/main.cpp.o -c /home/radxa/DMA/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cv.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/main.cpp.o -MF CMakeFiles/cv.dir/main.cpp.o.d -o CMakeFiles/cv.dir/main.cpp.o -c /home/radxa/Dev/DMA/main.cpp
 
 CMakeFiles/cv.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cv.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/DMA/main.cpp > CMakeFiles/cv.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/Dev/DMA/main.cpp > CMakeFiles/cv.dir/main.cpp.i
 
 CMakeFiles/cv.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cv.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/DMA/main.cpp -o CMakeFiles/cv.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/Dev/DMA/main.cpp -o CMakeFiles/cv.dir/main.cpp.s
 
 CMakeFiles/cv.dir/thread_pool.cpp.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/thread_pool.cpp.o: /home/radxa/DMA/thread_pool.cpp
+CMakeFiles/cv.dir/thread_pool.cpp.o: /home/radxa/Dev/DMA/thread_pool.cpp
 CMakeFiles/cv.dir/thread_pool.cpp.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cv.dir/thread_pool.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/thread_pool.cpp.o -MF CMakeFiles/cv.dir/thread_pool.cpp.o.d -o CMakeFiles/cv.dir/thread_pool.cpp.o -c /home/radxa/DMA/thread_pool.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cv.dir/thread_pool.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/thread_pool.cpp.o -MF CMakeFiles/cv.dir/thread_pool.cpp.o.d -o CMakeFiles/cv.dir/thread_pool.cpp.o -c /home/radxa/Dev/DMA/thread_pool.cpp
 
 CMakeFiles/cv.dir/thread_pool.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cv.dir/thread_pool.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/DMA/thread_pool.cpp > CMakeFiles/cv.dir/thread_pool.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/Dev/DMA/thread_pool.cpp > CMakeFiles/cv.dir/thread_pool.cpp.i
 
 CMakeFiles/cv.dir/thread_pool.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cv.dir/thread_pool.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/DMA/thread_pool.cpp -o CMakeFiles/cv.dir/thread_pool.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/Dev/DMA/thread_pool.cpp -o CMakeFiles/cv.dir/thread_pool.cpp.s
 
 CMakeFiles/cv.dir/yolov5s.cpp.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/yolov5s.cpp.o: /home/radxa/DMA/yolov5s.cpp
+CMakeFiles/cv.dir/yolov5s.cpp.o: /home/radxa/Dev/DMA/yolov5s.cpp
 CMakeFiles/cv.dir/yolov5s.cpp.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cv.dir/yolov5s.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/yolov5s.cpp.o -MF CMakeFiles/cv.dir/yolov5s.cpp.o.d -o CMakeFiles/cv.dir/yolov5s.cpp.o -c /home/radxa/DMA/yolov5s.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cv.dir/yolov5s.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/yolov5s.cpp.o -MF CMakeFiles/cv.dir/yolov5s.cpp.o.d -o CMakeFiles/cv.dir/yolov5s.cpp.o -c /home/radxa/Dev/DMA/yolov5s.cpp
 
 CMakeFiles/cv.dir/yolov5s.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cv.dir/yolov5s.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/DMA/yolov5s.cpp > CMakeFiles/cv.dir/yolov5s.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/Dev/DMA/yolov5s.cpp > CMakeFiles/cv.dir/yolov5s.cpp.i
 
 CMakeFiles/cv.dir/yolov5s.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cv.dir/yolov5s.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/DMA/yolov5s.cpp -o CMakeFiles/cv.dir/yolov5s.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/Dev/DMA/yolov5s.cpp -o CMakeFiles/cv.dir/yolov5s.cpp.s
 
 CMakeFiles/cv.dir/post_process.cpp.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/post_process.cpp.o: /home/radxa/DMA/post_process.cpp
+CMakeFiles/cv.dir/post_process.cpp.o: /home/radxa/Dev/DMA/post_process.cpp
 CMakeFiles/cv.dir/post_process.cpp.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cv.dir/post_process.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/post_process.cpp.o -MF CMakeFiles/cv.dir/post_process.cpp.o.d -o CMakeFiles/cv.dir/post_process.cpp.o -c /home/radxa/DMA/post_process.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cv.dir/post_process.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/post_process.cpp.o -MF CMakeFiles/cv.dir/post_process.cpp.o.d -o CMakeFiles/cv.dir/post_process.cpp.o -c /home/radxa/Dev/DMA/post_process.cpp
 
 CMakeFiles/cv.dir/post_process.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cv.dir/post_process.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/DMA/post_process.cpp > CMakeFiles/cv.dir/post_process.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/Dev/DMA/post_process.cpp > CMakeFiles/cv.dir/post_process.cpp.i
 
 CMakeFiles/cv.dir/post_process.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cv.dir/post_process.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/DMA/post_process.cpp -o CMakeFiles/cv.dir/post_process.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/Dev/DMA/post_process.cpp -o CMakeFiles/cv.dir/post_process.cpp.s
 
 CMakeFiles/cv.dir/streamer.c.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/streamer.c.o: /home/radxa/DMA/streamer.c
+CMakeFiles/cv.dir/streamer.c.o: /home/radxa/Dev/DMA/streamer.c
 CMakeFiles/cv.dir/streamer.c.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/cv.dir/streamer.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/streamer.c.o -MF CMakeFiles/cv.dir/streamer.c.o.d -o CMakeFiles/cv.dir/streamer.c.o -c /home/radxa/DMA/streamer.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/cv.dir/streamer.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/streamer.c.o -MF CMakeFiles/cv.dir/streamer.c.o.d -o CMakeFiles/cv.dir/streamer.c.o -c /home/radxa/Dev/DMA/streamer.c
 
 CMakeFiles/cv.dir/streamer.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cv.dir/streamer.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/DMA/streamer.c > CMakeFiles/cv.dir/streamer.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/Dev/DMA/streamer.c > CMakeFiles/cv.dir/streamer.c.i
 
 CMakeFiles/cv.dir/streamer.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cv.dir/streamer.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/DMA/streamer.c -o CMakeFiles/cv.dir/streamer.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/Dev/DMA/streamer.c -o CMakeFiles/cv.dir/streamer.c.s
 
 CMakeFiles/cv.dir/rtmp.c.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/rtmp.c.o: /home/radxa/DMA/rtmp.c
+CMakeFiles/cv.dir/rtmp.c.o: /home/radxa/Dev/DMA/rtmp.c
 CMakeFiles/cv.dir/rtmp.c.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/cv.dir/rtmp.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/rtmp.c.o -MF CMakeFiles/cv.dir/rtmp.c.o.d -o CMakeFiles/cv.dir/rtmp.c.o -c /home/radxa/DMA/rtmp.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/cv.dir/rtmp.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/rtmp.c.o -MF CMakeFiles/cv.dir/rtmp.c.o.d -o CMakeFiles/cv.dir/rtmp.c.o -c /home/radxa/Dev/DMA/rtmp.c
 
 CMakeFiles/cv.dir/rtmp.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cv.dir/rtmp.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/DMA/rtmp.c > CMakeFiles/cv.dir/rtmp.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/Dev/DMA/rtmp.c > CMakeFiles/cv.dir/rtmp.c.i
 
 CMakeFiles/cv.dir/rtmp.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cv.dir/rtmp.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/DMA/rtmp.c -o CMakeFiles/cv.dir/rtmp.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/Dev/DMA/rtmp.c -o CMakeFiles/cv.dir/rtmp.c.s
+
+CMakeFiles/cv.dir/h264_distributor.c.o: CMakeFiles/cv.dir/flags.make
+CMakeFiles/cv.dir/h264_distributor.c.o: /home/radxa/Dev/DMA/h264_distributor.c
+CMakeFiles/cv.dir/h264_distributor.c.o: CMakeFiles/cv.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/cv.dir/h264_distributor.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/h264_distributor.c.o -MF CMakeFiles/cv.dir/h264_distributor.c.o.d -o CMakeFiles/cv.dir/h264_distributor.c.o -c /home/radxa/Dev/DMA/h264_distributor.c
+
+CMakeFiles/cv.dir/h264_distributor.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cv.dir/h264_distributor.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/Dev/DMA/h264_distributor.c > CMakeFiles/cv.dir/h264_distributor.c.i
+
+CMakeFiles/cv.dir/h264_distributor.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cv.dir/h264_distributor.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/Dev/DMA/h264_distributor.c -o CMakeFiles/cv.dir/h264_distributor.c.s
 
 CMakeFiles/cv.dir/mpp.c.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/mpp.c.o: /home/radxa/DMA/mpp.c
+CMakeFiles/cv.dir/mpp.c.o: /home/radxa/Dev/DMA/mpp.c
 CMakeFiles/cv.dir/mpp.c.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/cv.dir/mpp.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/mpp.c.o -MF CMakeFiles/cv.dir/mpp.c.o.d -o CMakeFiles/cv.dir/mpp.c.o -c /home/radxa/DMA/mpp.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/cv.dir/mpp.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/mpp.c.o -MF CMakeFiles/cv.dir/mpp.c.o.d -o CMakeFiles/cv.dir/mpp.c.o -c /home/radxa/Dev/DMA/mpp.c
 
 CMakeFiles/cv.dir/mpp.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cv.dir/mpp.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/DMA/mpp.c > CMakeFiles/cv.dir/mpp.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/Dev/DMA/mpp.c > CMakeFiles/cv.dir/mpp.c.i
 
 CMakeFiles/cv.dir/mpp.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cv.dir/mpp.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/DMA/mpp.c -o CMakeFiles/cv.dir/mpp.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/Dev/DMA/mpp.c -o CMakeFiles/cv.dir/mpp.c.s
 
 CMakeFiles/cv.dir/mpp_decoder.cpp.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/mpp_decoder.cpp.o: /home/radxa/DMA/mpp_decoder.cpp
+CMakeFiles/cv.dir/mpp_decoder.cpp.o: /home/radxa/Dev/DMA/mpp_decoder.cpp
 CMakeFiles/cv.dir/mpp_decoder.cpp.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/cv.dir/mpp_decoder.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/mpp_decoder.cpp.o -MF CMakeFiles/cv.dir/mpp_decoder.cpp.o.d -o CMakeFiles/cv.dir/mpp_decoder.cpp.o -c /home/radxa/DMA/mpp_decoder.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/cv.dir/mpp_decoder.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cv.dir/mpp_decoder.cpp.o -MF CMakeFiles/cv.dir/mpp_decoder.cpp.o.d -o CMakeFiles/cv.dir/mpp_decoder.cpp.o -c /home/radxa/Dev/DMA/mpp_decoder.cpp
 
 CMakeFiles/cv.dir/mpp_decoder.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cv.dir/mpp_decoder.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/DMA/mpp_decoder.cpp > CMakeFiles/cv.dir/mpp_decoder.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/radxa/Dev/DMA/mpp_decoder.cpp > CMakeFiles/cv.dir/mpp_decoder.cpp.i
 
 CMakeFiles/cv.dir/mpp_decoder.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cv.dir/mpp_decoder.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/DMA/mpp_decoder.cpp -o CMakeFiles/cv.dir/mpp_decoder.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/radxa/Dev/DMA/mpp_decoder.cpp -o CMakeFiles/cv.dir/mpp_decoder.cpp.s
 
 CMakeFiles/cv.dir/v4l2_common.c.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/v4l2_common.c.o: /home/radxa/DMA/v4l2_common.c
+CMakeFiles/cv.dir/v4l2_common.c.o: /home/radxa/Dev/DMA/v4l2_common.c
 CMakeFiles/cv.dir/v4l2_common.c.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/cv.dir/v4l2_common.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/v4l2_common.c.o -MF CMakeFiles/cv.dir/v4l2_common.c.o.d -o CMakeFiles/cv.dir/v4l2_common.c.o -c /home/radxa/DMA/v4l2_common.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/cv.dir/v4l2_common.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/v4l2_common.c.o -MF CMakeFiles/cv.dir/v4l2_common.c.o.d -o CMakeFiles/cv.dir/v4l2_common.c.o -c /home/radxa/Dev/DMA/v4l2_common.c
 
 CMakeFiles/cv.dir/v4l2_common.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cv.dir/v4l2_common.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/DMA/v4l2_common.c > CMakeFiles/cv.dir/v4l2_common.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/Dev/DMA/v4l2_common.c > CMakeFiles/cv.dir/v4l2_common.c.i
 
 CMakeFiles/cv.dir/v4l2_common.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cv.dir/v4l2_common.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/DMA/v4l2_common.c -o CMakeFiles/cv.dir/v4l2_common.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/Dev/DMA/v4l2_common.c -o CMakeFiles/cv.dir/v4l2_common.c.s
 
 CMakeFiles/cv.dir/dmabuf.c.o: CMakeFiles/cv.dir/flags.make
-CMakeFiles/cv.dir/dmabuf.c.o: /home/radxa/DMA/dmabuf.c
+CMakeFiles/cv.dir/dmabuf.c.o: /home/radxa/Dev/DMA/dmabuf.c
 CMakeFiles/cv.dir/dmabuf.c.o: CMakeFiles/cv.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/cv.dir/dmabuf.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/dmabuf.c.o -MF CMakeFiles/cv.dir/dmabuf.c.o.d -o CMakeFiles/cv.dir/dmabuf.c.o -c /home/radxa/DMA/dmabuf.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/cv.dir/dmabuf.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/cv.dir/dmabuf.c.o -MF CMakeFiles/cv.dir/dmabuf.c.o.d -o CMakeFiles/cv.dir/dmabuf.c.o -c /home/radxa/Dev/DMA/dmabuf.c
 
 CMakeFiles/cv.dir/dmabuf.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cv.dir/dmabuf.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/DMA/dmabuf.c > CMakeFiles/cv.dir/dmabuf.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/radxa/Dev/DMA/dmabuf.c > CMakeFiles/cv.dir/dmabuf.c.i
 
 CMakeFiles/cv.dir/dmabuf.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cv.dir/dmabuf.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/DMA/dmabuf.c -o CMakeFiles/cv.dir/dmabuf.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/radxa/Dev/DMA/dmabuf.c -o CMakeFiles/cv.dir/dmabuf.c.s
 
 # Object files for target cv
 cv_OBJECTS = \
@@ -217,6 +234,7 @@ cv_OBJECTS = \
 "CMakeFiles/cv.dir/post_process.cpp.o" \
 "CMakeFiles/cv.dir/streamer.c.o" \
 "CMakeFiles/cv.dir/rtmp.c.o" \
+"CMakeFiles/cv.dir/h264_distributor.c.o" \
 "CMakeFiles/cv.dir/mpp.c.o" \
 "CMakeFiles/cv.dir/mpp_decoder.cpp.o" \
 "CMakeFiles/cv.dir/v4l2_common.c.o" \
@@ -231,6 +249,7 @@ cv: CMakeFiles/cv.dir/yolov5s.cpp.o
 cv: CMakeFiles/cv.dir/post_process.cpp.o
 cv: CMakeFiles/cv.dir/streamer.c.o
 cv: CMakeFiles/cv.dir/rtmp.c.o
+cv: CMakeFiles/cv.dir/h264_distributor.c.o
 cv: CMakeFiles/cv.dir/mpp.c.o
 cv: CMakeFiles/cv.dir/mpp_decoder.cpp.o
 cv: CMakeFiles/cv.dir/v4l2_common.c.o
@@ -272,9 +291,9 @@ cv: /usr/lib/aarch64-linux-gnu/libopencv_viz.so.4.6.0
 cv: /usr/lib/aarch64-linux-gnu/libopencv_wechat_qrcode.so.4.6.0
 cv: /usr/lib/aarch64-linux-gnu/libopencv_xobjdetect.so.4.6.0
 cv: /usr/lib/aarch64-linux-gnu/libopencv_xphoto.so.4.6.0
-cv: /home/radxa/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
-cv: /home/radxa/DMA/3rdparty/rga/RK3588/lib/Linux/aarch64/librga.so
-cv: /usr/local/lib/librockchip_mpp.so
+cv: /home/radxa/Dev/DMA/3rdparty/librknn_api/aarch64/librknnrt.so
+cv: /home/radxa/Dev/DMA/3rdparty/rga/RK3588/lib/Linux/aarch64/librga.so
+cv: /usr/lib/aarch64-linux-gnu/librockchip_mpp.so
 cv: /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.6.0
 cv: /usr/lib/aarch64-linux-gnu/libopencv_datasets.so.4.6.0
 cv: /usr/lib/aarch64-linux-gnu/libopencv_plot.so.4.6.0
@@ -297,7 +316,7 @@ cv: /usr/lib/aarch64-linux-gnu/libopencv_core.so.4.6.0
 cv: /usr/lib/gcc/aarch64-linux-gnu/12/libgomp.so
 cv: /usr/lib/aarch64-linux-gnu/libpthread.a
 cv: CMakeFiles/cv.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/radxa/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable cv"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/radxa/Dev/DMA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable cv"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cv.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -309,6 +328,6 @@ CMakeFiles/cv.dir/clean:
 .PHONY : CMakeFiles/cv.dir/clean
 
 CMakeFiles/cv.dir/depend:
-	cd /home/radxa/DMA/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/radxa/DMA /home/radxa/DMA /home/radxa/DMA/build /home/radxa/DMA/build /home/radxa/DMA/build/CMakeFiles/cv.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/radxa/Dev/DMA/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/radxa/Dev/DMA /home/radxa/Dev/DMA /home/radxa/Dev/DMA/build /home/radxa/Dev/DMA/build /home/radxa/Dev/DMA/build/CMakeFiles/cv.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/cv.dir/depend
 

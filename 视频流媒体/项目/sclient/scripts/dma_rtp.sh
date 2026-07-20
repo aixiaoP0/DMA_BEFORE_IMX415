@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CLIENT_BIN="${ROOT_DIR}/build/sclient"
+
+if [[ ! -x "${CLIENT_BIN}" ]]; then
+  echo "missing client binary: ${CLIENT_BIN}" >&2
+  echo "build first with: cmake -S . -B build && cmake --build build -j" >&2
+  exit 2
+fi
+
+BIND_HOST="${1:-0.0.0.0}"
+exec "${CLIENT_BIN}" \
+  --host "${BIND_HOST}" \
+  --port 10002 \
+  --transport rtp \
+  --renderer opengl \
+  --decoder software \
+  --metadata off

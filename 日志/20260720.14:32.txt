@@ -1,0 +1,460 @@
+radxa@rock-5c:~/Dev/DMA/build$ DMA_STREAM_TCP_PORT=9999 ./cv
+初始化线程池
+模型初始化成功!
+SDK版本 : 1.5.3b6 (181ec8d8b@2023-09-12T17:11:43) , 驱动版本 : 0.9.8
+输入张量数 : 1, 输出张量数 : 3
+index = 0, name = images, n_dims =4, dims = [1,640,640,3]
+size = 1228800,fmt = NHWC,scale = 0.003922,zp = -128
+
+index = 0, name = output0, n_dims =4, dims = [1,255,80,80]
+size = 1632000,fmt = NCHW,scale = 0.093581,zp = 69
+
+index = 1, name = 327, n_dims =4, dims = [1,255,40,40]
+size = 408000,fmt = NCHW,scale = 0.085973,zp = 49
+
+index = 2, name = 328, n_dims =4, dims = [1,255,20,20]
+size = 102000,fmt = NCHW,scale = 0.083459,zp = 43
+
+NPU输出零拷贝内存绑定成功!
+模型初始化成功!
+SDK版本 : 1.5.3b6 (181ec8d8b@2023-09-12T17:11:43) , 驱动版本 : 0.9.8
+输入张量数 : 1, 输出张量数 : 3
+index = 0, name = images, n_dims =4, dims = [1,640,640,3]
+size = 1228800,fmt = NHWC,scale = 0.003922,zp = -128
+
+index = 0, name = output0, n_dims =4, dims = [1,255,80,80]
+size = 1632000,fmt = NCHW,scale = 0.093581,zp = 69
+
+index = 1, name = 327, n_dims =4, dims = [1,255,40,40]
+size = 408000,fmt = NCHW,scale = 0.085973,zp = 49
+
+index = 2, name = 328, n_dims =4, dims = [1,255,20,20]
+size = 102000,fmt = NCHW,scale = 0.083459,zp = 43
+
+NPU输出零拷贝内存绑定成功!
+模型初始化成功!
+SDK版本 : 1.5.3b6 (181ec8d8b@2023-09-12T17:11:43) , 驱动版本 : 0.9.8
+输入张量数 : 1, 输出张量数 : 3
+index = 0, name = images, n_dims =4, dims = [1,640,640,3]
+size = 1228800,fmt = NHWC,scale = 0.003922,zp = -128
+
+index = 0, name = output0, n_dims =4, dims = [1,255,80,80]
+size = 1632000,fmt = NCHW,scale = 0.093581,zp = 69
+
+index = 1, name = 327, n_dims =4, dims = [1,255,40,40]
+size = 408000,fmt = NCHW,scale = 0.085973,zp = 49
+
+index = 2, name = 328, n_dims =4, dims = [1,255,20,20]
+size = 102000,fmt = NCHW,scale = 0.083459,zp = 43
+
+NPU输出零拷贝内存绑定成功!
+Worker Thread Pool Init OK, workers = 3
+0 启动 (CPU4, NPU Core0)Worker 1 启动 (CPU5, NPU Core1)
+Driver Caps: 
+ Driver: rkisp_v6
+ BUS: platform:rkisp0-vir0
+ Version: 2.0
+ Capabilities: 84201000
+  Device Caps: 04201000
+Device supports video capture (multi-plane).
+Device supports streaming I/O.
+
+Worker 2 启动 (CPU6, NPU Core2)
+Video size:1280 x 720, fps: 30.000000, total frame = 2000
+初始化流媒体推送器...
+视频参数: 1280x720, 30 fps, 3456000 bps
+RTMP地址: rtmp://192.168.137.99:1935/live/cv
+start to init mppp
+mpp init success!
+开始获取编码器头信息
+开始获取编码器header信息成功
+初始化RTMP...
+[h264-distributor] TCP listening on 0.0.0.0:9999
+[h264-distributor] UDP waiting for client keepalive on 0.0.0.0:10000
+Init RTMP: rtmp://192.168.137.99:1935/live/cv
+[Raw Header] (39 bytes): 00 00 00 01 67 64 10 1F AC 1B 1A A0 50 05 BA 10 ...
+Extradata Converted OK (42 bytes)
+[tcp @ 0xaaaaf5d2b790] Connection to tcp://192.168.137.99:1935?tcp_nodelay=0 failed: Connection refused
+[rtmp @ 0xaaaaf5d2b280] Cannot open connection tcp://192.168.137.99:1935?tcp_nodelay=0
+Failed to connect to RTMP server
+Failed to initialize RTMP streamer, continue with TCP/UDP/RTP distributor only
+本地录制已开启: /home/radxa/Dev/DMA/output.avi
+rga_api version 1.9.1_[4]
+read 80 labels
+lable_name : person
+lable_name : bicycle
+lable_name : car
+lable_name : motorcycle
+lable_name : airplane
+lable_name : bus
+lable_name : train
+lable_name : truck
+lable_name : boat
+lable_name : traffic light
+lable_name : fire hydrant
+lable_name : stop sign
+lable_name : parking meter
+lable_name : bench
+lable_name : bird
+lable_name : cat
+lable_name : dog
+lable_name : horse
+lable_name : sheep
+lable_name : cow
+lable_name : elephant
+lable_name : bear
+lable_name : zebra
+lable_name : giraffe
+lable_name : backpack
+lable_name : umbrella
+lable_name : handbag
+lable_name : tie
+lable_name : suitcase
+lable_name : frisbee
+lable_name : skis
+lable_name : snowboard
+lable_name : sports ball
+lable_name : kite
+lable_name : baseball bat
+lable_name : baseball glove
+lable_name : skateboard
+lable_name : surfboard
+lable_name : tennis racket
+lable_name : bottle
+lable_name : wine glass
+lable_name : cup
+lable_name : fork
+lable_name : knife
+lable_name : spoon
+lable_name : bowl
+lable_name : banana
+lable_name : apple
+lable_name : sandwich
+lable_name : orange
+lable_name : broccoli
+lable_name : carrot
+lable_name : hot dog
+lable_name : pizza
+lable_name : donut
+lable_name : cake
+lable_name : chair
+lable_name : couch
+lable_name : potted plant
+lable_name : bed
+lable_name : dining table
+lable_name : toilet
+lable_name : tv
+lable_name : laptop
+lable_name : mouse
+lable_name : remote
+lable_name : keyboard
+lable_name : cell phone
+lable_name : microwave
+lable_name : oven
+lable_name : toaster
+lable_name : sink
+lable_name : refrigerator
+lable_name : book
+lable_name : clock
+lable_name : vase
+lable_name : scissors
+lable_name : teddy bear
+lable_name : hair drier
+lable_name : toothbrush
+BGR888 TO NV12 OK!
+已处理帧: 0, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+BGR888 TO NV12 OK!
+已处理帧: 1, 剩余任务: 1
+已保存编码后的帧到文件: encode_frame 0.h264 ,大小: 102436 bytes
+send ok !
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+已保存编码后的帧到文件: encode_frame 1.h264 ,大小: 12790 bytes
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 2, 剩余任务: 0
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+已保存编码后的帧到文件: encode_frame 2.h264 ,大小: 8245 bytes
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 3, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+已保存编码后的帧到文件: encode_frame 3.h264 ,大小: 10387 bytes
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 4, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+已保存编码后的帧到文件: encode_frame 4.h264 ,大小: 8407 bytes
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 5, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 6, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 7, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 8, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 9, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 10, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 11, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 12, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 13, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 14, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 15, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 16, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 17, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 18, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 19, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 20, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 21, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 22, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 23, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 24, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 25, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 26, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 27, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 28, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 29, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+[Performance] End-to-End Real FPS: 51.2821 
+BGR888 TO NV12 OK!
+已处理帧: 30, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 31, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 32, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 33, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 34, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 35, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 36, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 37, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 38, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 输入帧信息: 大小=1382400 bytes, 格式=nv12
+39, 剩余任务: 1
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 40, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 41, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 42, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 43, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 44, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 45, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 46, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 47, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 48, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 49, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 50, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 51, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 52, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 53, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 54, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 55, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 56, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 57, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 58, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 59, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+[Performance] End-to-End Real FPS: 60.1202 
+BGR888 TO NV12 OK!
+已处理帧: 60, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 61, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 62, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 63, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 64, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 65, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 66, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+^CReadVideo thread exit
+BGR888 TO NV12 OK!
+已处理帧: 67, 剩余任务: 2
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 68, 剩余任务: 1
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+BGR888 TO NV12 OK!
+已处理帧: 69, 剩余任务: 0
+处理线程已结束
+[AggregatorThread] finished.
+输入帧信息: 大小=1382400 bytes, 格式=nv12
+send ok !
+[WriteThread] finished.
+code end!
+析构线程池
+Worker Worker 01 退出 退出
+
+Worker 2 退出
+ThreadPool destroyed.

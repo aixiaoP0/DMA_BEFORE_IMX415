@@ -11,8 +11,8 @@
 #include <sys/mman.h>
 #include <string.h>
 #include <errno.h>
-#include <rockchip/rk_mpi.h>
 #include <rockchip/rk_type.h>
+#include <rockchip/rk_mpi.h>
 #include <rockchip/mpp_rc_api.h>
 #include <rockchip/rk_venc_kcfg.h>
 

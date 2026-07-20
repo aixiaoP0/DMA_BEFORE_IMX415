@@ -1,4 +1,4 @@
-CMakeFiles/cv.dir/dmabuf.c.o: /home/radxa/DMA/dmabuf.c \
+CMakeFiles/cv.dir/dmabuf.c.o: /home/radxa/Dev/DMA/dmabuf.c \
  /usr/include/stdc-predef.h /usr/include/errno.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/aarch64-linux-gnu/bits/wordsize.h \
@@ -93,4 +93,4 @@ CMakeFiles/cv.dir/dmabuf.c.o: /home/radxa/DMA/dmabuf.c \
  /usr/include/aarch64-linux-gnu/bits/floatn.h \
  /usr/include/aarch64-linux-gnu/bits/floatn-common.h \
  /usr/include/linux/dma-buf.h /usr/include/linux/dma-heap.h \
- /home/radxa/DMA/dmabuf.h
+ /home/radxa/Dev/DMA/dmabuf.h

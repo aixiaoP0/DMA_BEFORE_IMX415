@@ -1,5 +1,5 @@
 #include "yolov5s.h"
-#include "/home/radxa/chapter1/3rdparty/librknn_api/include/rknn_api.h"
+#include <rknn_api.h>
 #include "post_process.h"
 /**
  * @brief 打印张量属性信息（调试用）
@@ -140,26 +140,49 @@ Yolov5s::Yolov5s(const char *model_path, int npu_index)
 /**
  * @brief Yolov5s类析构函数：释放所有资源（内存/RKNN上下文）
  */
+// Yolov5s::~Yolov5s()
+// {
+//      // 释放输出张量零拷贝内存
+//     for(int i = 0; i < output_mems.size(); i++) {
+//         if(output_mems[i]) {
+//             rknn_destroy_mem(ctx, output_mems[i]);
+//         }
+//     }
+
+//     //销毁rkNN上下文
+//     rknn_destroy(ctx);
+
+//     //释放模型二进制数据
+//     if(model_data)
+//     {
+//         free(model_data);
+//     }
+
+//     // 释放输入零拷贝内存
+//     if(input_mem) rknn_destroy_mem(ctx, input_mem);
+// }
 Yolov5s::~Yolov5s()
 {
-     // 释放输出张量零拷贝内存
-    for(int i = 0; i < output_mems.size(); i++) {
+    // 释放输入/输出零拷贝内存必须发生在 rknn_destroy(ctx) 之前。
+    // rknn_tensor_mem 由该 RKNN ctx 创建，ctx 销毁后再 destroy_mem 会访问无效上下文。
+    if(input_mem) {
+        rknn_destroy_mem(ctx, input_mem);
+        input_mem = nullptr;
+    }
+    // 释放输出张量零拷贝内存
+    for(size_t i = 0; i < output_mems.size(); i++) {
         if(output_mems[i]) {
             rknn_destroy_mem(ctx, output_mems[i]);
+            output_mems[i] = nullptr;
         }
     }
 
-    //销毁rkNN上下文
-    rknn_destroy(ctx);
-
-    //释放模型二进制数据
     if(model_data)
     {
         free(model_data);
+        model_data = nullptr;
     }
 
-    // 释放输入零拷贝内存
-    if(input_mem) rknn_destroy_mem(ctx, input_mem);
 }
 /**
  * @brief 加载RKNN模型文件（二进制）

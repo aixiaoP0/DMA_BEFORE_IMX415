@@ -1,3 +1,3 @@
-/home/radxa/DMA/build/CMakeFiles/cv.dir
-/home/radxa/DMA/build/CMakeFiles/edit_cache.dir
-/home/radxa/DMA/build/CMakeFiles/rebuild_cache.dir
+/home/radxa/Dev/DMA/build/CMakeFiles/cv.dir
+/home/radxa/Dev/DMA/build/CMakeFiles/edit_cache.dir
+/home/radxa/Dev/DMA/build/CMakeFiles/rebuild_cache.dir

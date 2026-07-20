@@ -1,4 +1,4 @@
-CMakeFiles/cv.dir/streamer.c.o: /home/radxa/DMA/streamer.c \
+CMakeFiles/cv.dir/streamer.c.o: /home/radxa/Dev/DMA/streamer.c \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -50,7 +50,7 @@ CMakeFiles/cv.dir/streamer.c.o: /home/radxa/DMA/streamer.c \
  /usr/include/string.h \
  /usr/include/aarch64-linux-gnu/bits/types/locale_t.h \
  /usr/include/aarch64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h /home/radxa/DMA/mpp.h \
+ /usr/include/strings.h /home/radxa/Dev/DMA/mpp.h \
  /usr/lib/gcc/aarch64-linux-gnu/12/include/stdint.h /usr/include/stdint.h \
  /usr/include/aarch64-linux-gnu/bits/wchar.h \
  /usr/include/aarch64-linux-gnu/bits/stdint-uintn.h /usr/include/unistd.h \
@@ -74,31 +74,24 @@ CMakeFiles/cv.dir/streamer.c.o: /home/radxa/DMA/streamer.c \
  /usr/include/aarch64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
  /usr/include/aarch64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
- /usr/local/include/rockchip/rk_mpi.h \
- /usr/local/include/rockchip/rk_mpi_cmd.h \
- /usr/local/include/rockchip/rk_vdec_cmd.h \
- /usr/local/include/rockchip/rk_type.h \
- /usr/local/include/rockchip/mpp_err.h \
- /usr/local/include/rockchip/rk_vdec_cfg.h \
- /usr/local/include/rockchip/rk_venc_cmd.h \
- /usr/local/include/rockchip/mpp_frame.h \
- /usr/local/include/rockchip/mpp_buffer.h \
- /usr/local/include/rockchip/mpp_meta.h \
- /usr/local/include/rockchip/mpp_packet.h \
- /usr/local/include/rockchip/rk_venc_rc.h \
- /usr/local/include/rockchip/rk_venc_cfg.h \
- /usr/local/include/rockchip/rk_venc_ref.h \
- /usr/local/include/rockchip/mpp_task.h \
- /usr/local/include/rockchip/rk_type.h \
- /usr/local/include/rockchip/mpp_rc_api.h \
- /usr/local/include/rockchip/mpp_rc_defs.h \
- /usr/local/include/rockchip/rk_venc_kcfg.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_env.h \
- /usr/local/include/rockchip/rk_type.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_mem.h \
- /usr/local/include/rockchip/mpp_err.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_time.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_thread.h /usr/include/semaphore.h \
+ /home/radxa/Dev/DMA/mpp/inc/rockchip/rk_type.h \
+ /usr/include/rockchip/rk_mpi.h /usr/include/rockchip/rk_mpi_cmd.h \
+ /usr/include/rockchip/rk_vdec_cmd.h /usr/include/rockchip/rk_type.h \
+ /usr/include/rockchip/mpp_err.h /usr/include/rockchip/rk_vdec_cfg.h \
+ /usr/include/rockchip/rk_venc_cmd.h /usr/include/rockchip/mpp_frame.h \
+ /usr/include/rockchip/mpp_buffer.h /usr/include/rockchip/mpp_meta.h \
+ /usr/include/rockchip/mpp_packet.h /usr/include/rockchip/rk_venc_rc.h \
+ /usr/include/rockchip/rk_venc_cfg.h /usr/include/rockchip/rk_venc_ref.h \
+ /usr/include/rockchip/mpp_task.h /usr/include/rockchip/mpp_rc_api.h \
+ /usr/include/rockchip/mpp_rc_defs.h \
+ /home/radxa/Dev/DMA/mpp/inc/rockchip/rk_venc_kcfg.h \
+ /home/radxa/Dev/DMA/mpp/inc/rockchip/rk_type.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_err.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_env.h \
+ /home/radxa/Dev/DMA/mpp/inc/rk_type.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_mem.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_time.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_thread.h /usr/include/semaphore.h \
  /usr/include/aarch64-linux-gnu/bits/semaphore.h /usr/include/pthread.h \
  /usr/include/sched.h /usr/include/aarch64-linux-gnu/bits/sched.h \
  /usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h \
@@ -111,21 +104,22 @@ CMakeFiles/cv.dir/streamer.c.o: /home/radxa/DMA/streamer.c \
  /usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h \
  /usr/include/aarch64-linux-gnu/bits/pthread_stack_min.h \
  /usr/include/aarch64-linux-gnu/sys/time.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_debug.h \
- /usr/local/include/rockchip/mpp_log.h \
- /usr/local/include/rockchip/mpp_log_def.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_common.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_soc.h \
- /home/radxa/mpp/mpp/mpp/osal/inc/mpp_dev_defs.h \
- /home/radxa/mpp/mpp/mpp/utils/utils.h \
- /usr/local/include/rockchip/mpp_frame.h \
- /home/radxa/mpp/mpp/mpp/utils/mpi_enc_utils.h \
- /usr/local/include/rockchip/rk_venc_cmd.h \
- /home/radxa/mpp/mpp/mpp/utils/iniparser.h \
- /home/radxa/mpp/mpp/mpp/utils/dictionary.h \
- /home/radxa/mpp/mpp/mpp/utils/camera_source.h \
- /home/radxa/mpp/mpp/mpp/utils/mpp_enc_roi_utils.h \
- /usr/local/include/rockchip/mpp_rc_api.h /home/radxa/DMA/rtmp.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_debug.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_log.h \
+ /home/radxa/Dev/DMA/mpp/inc/rk_type.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_log_def.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_common.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_soc.h \
+ /home/radxa/Dev/DMA/mpp/osal/inc/mpp_dev_defs.h \
+ /home/radxa/Dev/DMA/mpp/utils/utils.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_frame.h \
+ /home/radxa/Dev/DMA/mpp/utils/mpi_enc_utils.h \
+ /home/radxa/Dev/DMA/mpp/inc/rk_venc_cmd.h \
+ /home/radxa/Dev/DMA/mpp/utils/iniparser.h \
+ /home/radxa/Dev/DMA/mpp/utils/dictionary.h \
+ /home/radxa/Dev/DMA/mpp/utils/camera_source.h \
+ /home/radxa/Dev/DMA/mpp/utils/mpp_enc_roi_utils.h \
+ /home/radxa/Dev/DMA/mpp/inc/mpp_rc_api.h /home/radxa/Dev/DMA/rtmp.h \
  /usr/include/aarch64-linux-gnu/libavcodec/avcodec.h \
  /usr/include/aarch64-linux-gnu/libavutil/samplefmt.h \
  /usr/include/aarch64-linux-gnu/libavutil/attributes.h \
@@ -181,4 +175,4 @@ CMakeFiles/cv.dir/streamer.c.o: /home/radxa/DMA/streamer.c \
  /usr/include/aarch64-linux-gnu/libavutil/version.h \
  /usr/include/aarch64-linux-gnu/libavcodec/version_major.h \
  /usr/include/aarch64-linux-gnu/libavcodec/version.h \
- /home/radxa/DMA/streamer.h
+ /home/radxa/Dev/DMA/streamer.h /home/radxa/Dev/DMA/h264_distributor.h

@@ -5,13 +5,13 @@
 # compile CXX with /usr/bin/c++
 C_DEFINES = 
 
-C_INCLUDES = -I/home/radxa/DMA/3rdparty/librknn_api/include -I/home/radxa/DMA/3rdparty/rga/RK3588/include -I/home/radxa/mpp/mpp/mpp/osal/inc -I/usr/local/include/rockchip -I/home/radxa/mpp/mpp/mpp/utils -isystem /usr/include/opencv4
+C_INCLUDES = -I/home/radxa/Dev/DMA/3rdparty/librknn_api/include -I/home/radxa/Dev/DMA/3rdparty/rga/RK3588/include -I/home/radxa/Dev/DMA/mpp/inc -I/home/radxa/Dev/DMA/mpp/osal/inc -I/home/radxa/Dev/DMA/mpp/utils -isystem /usr/include/opencv4
 
 C_FLAGS = -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/radxa/DMA/3rdparty/librknn_api/include -I/home/radxa/DMA/3rdparty/rga/RK3588/include -I/home/radxa/mpp/mpp/mpp/osal/inc -I/usr/local/include/rockchip -I/home/radxa/mpp/mpp/mpp/utils -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/radxa/Dev/DMA/3rdparty/librknn_api/include -I/home/radxa/Dev/DMA/3rdparty/rga/RK3588/include -I/home/radxa/Dev/DMA/mpp/inc -I/home/radxa/Dev/DMA/mpp/osal/inc -I/home/radxa/Dev/DMA/mpp/utils -isystem /usr/include/opencv4
 
 CXX_FLAGS =  -g -O0 -g -fopenmp -std=gnu++14
 

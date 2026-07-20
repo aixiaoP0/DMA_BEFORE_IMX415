@@ -31,6 +31,9 @@ default_target: all
 
 .SUFFIXES: .hpux_make_needs_suffix_list
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Command-line flag to silence nested $(MAKE).
 $(VERBOSE)MAKESILENT = -s
 
@@ -57,10 +60,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/radxa/DMA
+CMAKE_SOURCE_DIR = /home/radxa/Dev/DMA
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/radxa/DMA/build
+CMAKE_BINARY_DIR = /home/radxa/Dev/DMA/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +90,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/DMA/build/CMakeFiles /home/radxa/DMA/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/Dev/DMA/build/CMakeFiles /home/radxa/Dev/DMA/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/DMA/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/radxa/Dev/DMA/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -152,6 +155,30 @@ dmabuf.s: dmabuf.c.s
 dmabuf.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cv.dir/build.make CMakeFiles/cv.dir/dmabuf.c.s
 .PHONY : dmabuf.c.s
+
+h264_distributor.o: h264_distributor.c.o
+.PHONY : h264_distributor.o
+
+# target to build an object file
+h264_distributor.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cv.dir/build.make CMakeFiles/cv.dir/h264_distributor.c.o
+.PHONY : h264_distributor.c.o
+
+h264_distributor.i: h264_distributor.c.i
+.PHONY : h264_distributor.i
+
+# target to preprocess a source file
+h264_distributor.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cv.dir/build.make CMakeFiles/cv.dir/h264_distributor.c.i
+.PHONY : h264_distributor.c.i
+
+h264_distributor.s: h264_distributor.c.s
+.PHONY : h264_distributor.s
+
+# target to generate assembly for a file
+h264_distributor.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cv.dir/build.make CMakeFiles/cv.dir/h264_distributor.c.s
+.PHONY : h264_distributor.c.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -381,6 +408,9 @@ help:
 	@echo "... dmabuf.o"
 	@echo "... dmabuf.i"
 	@echo "... dmabuf.s"
+	@echo "... h264_distributor.o"
+	@echo "... h264_distributor.i"
+	@echo "... h264_distributor.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -1,4 +1,4 @@
-CMakeFiles/cv.dir/rtmp.c.o: /home/radxa/DMA/rtmp.c \
+CMakeFiles/cv.dir/rtmp.c.o: /home/radxa/Dev/DMA/rtmp.c \
  /usr/include/stdc-predef.h \
  /usr/include/aarch64-linux-gnu/libavformat/avformat.h \
  /usr/include/time.h /usr/include/features.h \
@@ -129,7 +129,7 @@ CMakeFiles/cv.dir/rtmp.c.o: /home/radxa/DMA/rtmp.c \
  /usr/include/aarch64-linux-gnu/libavcodec/packet.h \
  /usr/include/aarch64-linux-gnu/libavcodec/version_major.h \
  /usr/include/aarch64-linux-gnu/libavcodec/version.h \
- /home/radxa/DMA/rtmp.h /usr/include/unistd.h \
+ /home/radxa/Dev/DMA/rtmp.h /usr/include/unistd.h \
  /usr/include/aarch64-linux-gnu/bits/posix_opt.h \
  /usr/include/aarch64-linux-gnu/bits/environments.h \
  /usr/include/aarch64-linux-gnu/bits/confname.h \

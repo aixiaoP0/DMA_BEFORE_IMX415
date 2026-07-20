@@ -1,0 +1,27 @@
+# ── 编译产物（Build Artifacts）──
+build/
+*.o
+*.obj
+*.exe
+*.out
+output.avi
+encode_frame *.h264
+
+# ── 库文件（Library Files）──
+*.so
+*.so.*
+*.a
+*.la
+*.lib
+*.dll
+*.dylib
+
+# ── 文档（Markdown）──
+*.md
+
+# ── 系统/临时文件 ──
+*.swp
+*.swo
+*~
+*.tmp
+*.log

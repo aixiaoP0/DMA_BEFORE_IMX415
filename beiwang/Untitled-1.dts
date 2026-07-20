@@ -1,0 +1,176 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * 项目：Radxa 5C (RK3588S) 移植 IMX415 摄像头驱动
+ * 依据：Radxa ROCK 5C V1.1 原理图 & RK3588S2 芯片手册
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+#include <dt-bindings/sensor-dev.h>
+
+/ {
+    /* * 1. Sensor 节点配置
+     * 根据原理图 Page 17，摄像头连接到 I2C3 总线 
+     */
+    &i2c3 {
+        status = "okay";
+        pinctrl-names = "default";
+        pinctrl-0 = <&i2c3m0_xfer>; 
+
+        imx415: imx415@1a {
+            compatible = "sony,imx415";
+            reg = <0x1a>; // IMX415 默认 I2C 地址
+            status = "okay";
+
+            /* 时钟配置：RK3588S 提供给摄像头的 24MHz 心跳时钟 */
+            clocks = <&cru CLK_MIPI_CAMARAOUT_M0>;
+            clock-names = "xvclk";
+            pinctrl-names = "default";
+		    pinctrl-0 = <&mipim0_camera1_clk>;
+
+           
+
+            /* 供电域绑定：属于视频输入电源域 */
+            power-domains = <&power RK3588_PD_VI>;
+            pwdn-gpios = <&gpio1 RK_PD5 GPIO_ACTIVE_HIGH>;
+
+             /* 复位引脚 */
+            reset-gpios = <&gpio1 RK_PD2 GPIO_ACTIVE_LOW>;
+            
+            
+            /* 模组元数据：用于 ISP 驱动匹配 IQ 文件 */
+            rockchip,camera-module-index = <0>;
+            rockchip,camera-module-facing = "back";
+            rockchip,camera-module-name = "RADXA-CAMERA-4K";
+            rockchip,camera-module-lens-name = "DEFAULT";
+
+            //自动对焦马达  但市面上买到的兼容 31-Pin 排线的 IMX415 模组，99% 都是定焦裸板模组
+            //lens-focus = <&cam_ircut0>;
+
+            port {
+                imx415_out0: endpoint {
+                    /* 数据输出：指向物理层第一站 csi2_dphy0 */
+                    remote-endpoint = <&mipi_in_ucam0>;
+                    data-lanes = <1 2 3 4>; // IMX415 支持 4 Lane 模式
+                };
+            };
+        };
+    };
+
+    /* * 2. 物理层 (PHY) 配置
+     * 验证：Radxa 5C 信号线连接到 MIPI DPHY CSI_RX Port0 (Page 8) 
+     */
+    &csi2_dphy0 {
+        status = "okay";
+
+        ports {
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            port@0 {
+                reg = <0>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                /* 输入端：接收来自 Sensor 的数据 */
+                mipi_in_ucam0: endpoint@1 {
+                    reg = <1>;
+                    remote-endpoint = <&imx415_out0>;
+                    data-lanes = <1 2 3 4>;
+                };
+            };
+
+            port@1 {
+                reg = <1>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                /* 输出端：将数据传给协议层 mipi0_csi2 */
+                csidphy0_out: endpoint@0 {
+                    reg = <0>;
+                    remote-endpoint = <&mipi0_csi2_input>;
+                };
+            };
+        };
+    };
+
+    /* * 3. 协议层 (CSI-2 Host) 配置
+     * 负责解析 MIPI 协议包
+     */
+    &mipi0_csi2 {
+        status = "okay";
+
+        ports {
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            port@0 {
+                reg = <0>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                /* 输入：来自 D-PHY */
+                mipi0_csi2_input: endpoint@1 {
+                    reg = <1>;
+                    remote-endpoint = <&csidphy0_out>;
+                };
+            };
+
+            port@1 {
+                reg = <1>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                /* 输出：传给采集引擎 VICAP (cif) */
+                mipi0_csi2_output: endpoint@0 {
+                    reg = <0>;
+                    remote-endpoint = <&cif_mipi_in0>;
+                };
+            };
+        };
+    };
+
+    /* * 4. 采集层 (VICAP) 与 图像处理层 (ISP) 绑定
+     * 建立数据流转运至 ISP 的最终路径 [cite: 14893, 14894]
+     */
+    &rkcif {
+        status = "okay";
+    };
+
+    &rkcif_mipi_lvds {
+        status = "okay";
+
+        port {
+            cif_mipi_in0: endpoint {
+                remote-endpoint = <&mipi0_csi2_output>;
+            };
+        };
+    };
+
+    &rkcif_mipi_lvds_sditf {
+	    status = "okay";
+	    port {
+            mipi_lvds_sditf: endpoint {
+            remote-endpoint = <&isp0_vir0>;
+            };
+        };
+    };
+  /* 开启虚拟 ISP 节点 */
+  &rkisp0_vir0 {
+	status = "okay";
+
+        port {
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            isp0_vir0: endpoint@0 {
+                reg = <0>;
+                remote-endpoint = <&mipi_lvds_sditf>;
+            };
+        };
+    };
+
+};
+
+  
+

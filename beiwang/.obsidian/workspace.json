@@ -1,0 +1,224 @@
+{
+  "main": {
+    "id": "4dacbd91b6e43255",
+    "type": "split",
+    "children": [
+      {
+        "id": "e43ee6032fba7fb6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8ab5e4cc1f114dae",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "imx415设备树编写笔记.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "imx415设备树编写笔记"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c4b6fc98b4478e14",
+    "type": "split",
+    "children": [
+      {
+        "id": "53299b8677078f8f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ecc1ff382647475b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "c84238651c3b8606",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "4d3ddade151edced",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "4ddabaf55897fe66",
+    "type": "split",
+    "children": [
+      {
+        "id": "fce48c1257298c57",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7e78ee5fe782ee6c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "imx415设备树编写笔记.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "imx415设备树编写笔记 的反向链接列表"
+            }
+          },
+          {
+            "id": "4f90b975dff17e38",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "面试_零拷贝数据通路.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "面试_零拷贝数据通路 的出链列表"
+            }
+          },
+          {
+            "id": "d5eaeb2528c8be64",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "51aced09d7b033b6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "9dc07eb2375ee593",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "面试_零拷贝数据通路.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "面试_零拷贝数据通路 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "8ab5e4cc1f114dae",
+  "lastOpenFiles": [
+    "学习imx415移植时的记录 - 副本.md",
+    "线程同步_SafeQueue - 副本.md",
+    "线程池_ThreadPool - 副本.md",
+    "数据流复习目录 - 副本.md",
+    "数据流复习_资源释放与异常处理 - 副本.md",
+    "数据流复习_Worker线程池推理 - 副本.md",
+    "数据流复习_V4L2+DMA - 副本.md",
+    "数据流复习_RGA转换 - 副本.md",
+    "imx415设备树编写笔记 - 副本.md",
+    "YOLOv5s零拷贝内存绑定.md",
+    "imx415设备树编写笔记.md",
+    "零拷贝数据通路重构.md",
+    "面试_零拷贝数据通路.md",
+    "面试_NPU初始化位置设计决策.md",
+    "面试_CMA池与缺页中断.md",
+    "数据流复习_Aggregator调度保序.md",
+    "数据流复习_资源释放与异常处理.md",
+    "面试问题.md",
+    "未命名",
+    "学习imx415移植时的记录.md",
+    "未命名.canvas",
+    "线程池_ThreadPool.md",
+    "线程同步_SafeQueue.md",
+    "image.png",
+    "image-1.png",
+    "image-2.png",
+    "image-3.png",
+    "image-4.png",
+    "2026-05-01.md",
+    "八股.pdf",
+    "八股知识_旧架构代码对照.md",
+    "数据流复习_V4L2+DMA.md",
+    "数据流复习_Worker线程池推理.md",
+    "数据流复习目录.md",
+    "面试简历.jpg"
+  ]
+}

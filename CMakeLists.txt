@@ -59,9 +59,9 @@ include_directories(
     ${SWSCALE_INCLUDE_DIRS}
     ${AVDEVICE_INCLUDE_DIRS}
     # MPP 和 Rockchip 的硬编码路径 (请确认这些路径在板子上真实存在)
-    /home/radxa/mpp/mpp/mpp/osal/inc
-    /usr/local/include/rockchip
-    /home/radxa/mpp/mpp/mpp/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpp/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpp/osal/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpp/utils
 )
 
 # --- 6. 添加库文件搜索路径 (Link Directories) ---
@@ -82,6 +82,7 @@ add_executable(cv
     post_process.cpp 
     streamer.c
     rtmp.c
+    h264_distributor.c
     mpp.c
     mpp_decoder.cpp
     v4l2_common.c
