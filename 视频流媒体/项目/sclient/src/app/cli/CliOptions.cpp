@@ -88,6 +88,8 @@ void AppendSharedStreamUsage(std::ostringstream *stream) {
             << "  --host <ip>                 default: 127.0.0.1\n"
             << "  --port <port>               default: 9999\n"
             << "  --sdp <path>                load RTP bind address/port from SDP\n"
+            << "  --rtp-server-host <ip>      RTP registration server; empty keeps passive mode\n"
+            << "  --rtp-server-port <port>    default: 10002\n"
             << "  --metadata <on|off>         default: on\n"
             << "  --udp-jitter-buffer <on|off> default: on\n"
             << "  --udp-jitter-buffer-strategy <auto|off|low|smooth|fixed|adaptive> default: auto\n"
@@ -245,6 +247,24 @@ CliParseResult ParseSharedStreamOption(
             return BuildMissingValueResult("--sdp");
         }
         config->sdp_path = argv[++(*index)];
+        return BuildHandledSuccess();
+    }
+    if (std::strcmp(argv[*index], "--rtp-server-host") == 0) {
+        if (*index + 1 >= argc) {
+            return BuildMissingValueResult("--rtp-server-host");
+        }
+        config->rtp_server_host = argv[++(*index)];
+        return BuildHandledSuccess();
+    }
+    if (std::strcmp(argv[*index], "--rtp-server-port") == 0) {
+        if (*index + 1 >= argc) {
+            return BuildMissingValueResult("--rtp-server-port");
+        }
+        if (!ParseInt(argv[++(*index)], &config->rtp_server_port) ||
+            config->rtp_server_port <= 0 ||
+            config->rtp_server_port > 65535) {
+            return BuildInvalidValueResult("--rtp-server-port");
+        }
         return BuildHandledSuccess();
     }
     if (std::strcmp(argv[*index], "--metadata") == 0) {

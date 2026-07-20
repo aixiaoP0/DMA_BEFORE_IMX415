@@ -673,6 +673,7 @@ void StreamClient::ResetUdpState() {
 
 void StreamClient::ResetRtpState() {
     rtp_frame_assembly_.payload.clear();
+    rtp_frame_assembly_.frame_sequence = 0;
     rtp_frame_assembly_.timestamp = 0;
     rtp_frame_assembly_.ssrc = 0;
     rtp_frame_assembly_.next_sequence_number = 0;

@@ -17,7 +17,7 @@ encode_frame *.h264
 *.dylib
 
 # ── 文档（Markdown）──
-*.md
+#//*.md
 
 # ── 系统/临时文件 ──
 *.swp

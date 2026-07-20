@@ -10,10 +10,19 @@ if [[ ! -x "${CLIENT_BIN}" ]]; then
   exit 2
 fi
 
-BIND_HOST="${1:-0.0.0.0}"
+if [[ $# -lt 1 ]]; then
+  echo "usage: $0 <board-ip> [bind-ip]" >&2
+  echo "example: $0 192.168.137.99" >&2
+  exit 2
+fi
+
+SERVER_HOST="$1"
+BIND_HOST="${2:-0.0.0.0}"
 exec "${CLIENT_BIN}" \
   --host "${BIND_HOST}" \
   --port 10002 \
+  --rtp-server-host "${SERVER_HOST}" \
+  --rtp-server-port 10002 \
   --transport rtp \
   --renderer opengl \
   --decoder software \

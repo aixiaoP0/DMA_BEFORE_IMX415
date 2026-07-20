@@ -21,6 +21,8 @@ enum {
     DMA_RTP_PAYLOAD_TYPE = 96,
     DMA_RTP_MTU = 1200,
     DMA_UDP_FRAGMENT_PAYLOAD = 1200,
+    DMA_RTP_CLIENT_TIMEOUT_MS = 5000,
+    DMA_RTP_TIMESTAMP_STEP = 1500, /* 90kHz / 60fps */
 };
 
 #pragma pack(push, 1)
@@ -64,12 +66,20 @@ typedef struct H264DistributorContext {
     int udp_client_valid;
     struct sockaddr_in udp_client_addr;
     int rtp_fd;
+    int rtp_port;
     int rtp_enabled;
-    struct sockaddr_in rtp_dest_addr;
+    int rtp_client_valid;
+    int rtp_static_dest_valid;
+    int rtp_client_timeout_ms;
+    uint64_t rtp_client_last_seen_ns;
+    struct sockaddr_in rtp_client_addr;
+    struct sockaddr_in rtp_static_dest_addr;
     pthread_t tcp_thread;
     pthread_t udp_thread;
+    pthread_t rtp_thread;
     int tcp_thread_started;
     int udp_thread_started;
+    int rtp_thread_started;
     pthread_mutex_t lock;
     uint64_t frame_sequence;
     uint16_t rtp_sequence;
@@ -88,9 +98,15 @@ static H264DistributorContext g_dist = {
     .udp_port = 10000,
     .udp_client_valid = 0,
     .rtp_fd = -1,
+    .rtp_port = 10002,
     .rtp_enabled = 0,
+    .rtp_client_valid = 0,
+    .rtp_static_dest_valid = 0,
+    .rtp_client_timeout_ms = DMA_RTP_CLIENT_TIMEOUT_MS,
+    .rtp_client_last_seen_ns = 0,
     .tcp_thread_started = 0,
     .udp_thread_started = 0,
+    .rtp_thread_started = 0,
     .frame_sequence = 0,
     .rtp_sequence = 0,
     .rtp_timestamp = 0,
@@ -206,6 +222,54 @@ static void *udp_control_thread(void *arg) {
                 g_dist.udp_client_valid = 1;
                 pthread_mutex_unlock(&g_dist.lock);
             }
+        }
+    }
+    return NULL;
+}
+
+static void *rtp_registration_thread(void *arg) {
+    (void)arg;
+    char buffer[512];
+    while (g_dist.running) {
+        struct sockaddr_in client_addr;
+        socklen_t addr_len = sizeof(client_addr);
+        ssize_t received = recvfrom(
+            g_dist.rtp_fd, buffer, sizeof(buffer), 0,
+            (struct sockaddr *)&client_addr, &addr_len);
+        if (received < 0) {
+            if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
+                usleep(10000);
+                continue;
+            }
+            break;
+        }
+        if ((size_t)received < sizeof(DmaMessageHeader)) {
+            continue;
+        }
+
+        DmaMessageHeader header;
+        memcpy(&header, buffer, sizeof(header));
+        if (memcmp(header.head_id, "CCTC", 4) != 0 ||
+            header.message_type != DMA_MESSAGE_KEEPALIVE) {
+            continue;
+        }
+
+        int address_changed = 0;
+        pthread_mutex_lock(&g_dist.lock);
+        address_changed =
+            !g_dist.rtp_client_valid ||
+            g_dist.rtp_client_addr.sin_addr.s_addr != client_addr.sin_addr.s_addr ||
+            g_dist.rtp_client_addr.sin_port != client_addr.sin_port;
+        g_dist.rtp_client_addr = client_addr;
+        g_dist.rtp_client_last_seen_ns = monotonic_now_ns();
+        g_dist.rtp_client_valid = 1;
+        pthread_mutex_unlock(&g_dist.lock);
+
+        if (address_changed) {
+            char address_text[INET_ADDRSTRLEN] = {0};
+            inet_ntop(AF_INET, &client_addr.sin_addr, address_text, sizeof(address_text));
+            printf("[h264-distributor] RTP client registered from %s:%u\n",
+                   address_text, (unsigned int)ntohs(client_addr.sin_port));
         }
     }
     return NULL;
@@ -327,7 +391,40 @@ static void write_be32(uint8_t *p, uint32_t v) {
     p[3] = (uint8_t)(v & 0xff);
 }
 
-static void rtp_send_payload(const uint8_t *payload, int payload_size, int marker) {
+static int get_rtp_destination(struct sockaddr_in *destination) {
+    int valid = 0;
+    int expired = 0;
+    const uint64_t now_ns = monotonic_now_ns();
+
+    pthread_mutex_lock(&g_dist.lock);
+    if (g_dist.rtp_client_valid) {
+        const uint64_t timeout_ns =
+            (uint64_t)g_dist.rtp_client_timeout_ms * 1000000ULL;
+        if (now_ns - g_dist.rtp_client_last_seen_ns <= timeout_ns) {
+            *destination = g_dist.rtp_client_addr;
+            valid = 1;
+        } else {
+            g_dist.rtp_client_valid = 0;
+            expired = 1;
+        }
+    }
+    if (!valid && g_dist.rtp_static_dest_valid) {
+        *destination = g_dist.rtp_static_dest_addr;
+        valid = 1;
+    }
+    pthread_mutex_unlock(&g_dist.lock);
+
+    if (expired) {
+        printf("[h264-distributor] RTP client registration expired\n");
+    }
+    return valid;
+}
+
+static void rtp_send_payload(
+        const uint8_t *payload,
+        int payload_size,
+        int marker,
+        const struct sockaddr_in *destination) {
     uint8_t packet[DMA_RTP_MTU + 64];
     packet[0] = 0x80;
     packet[1] = (uint8_t)((marker ? 0x80 : 0x00) | DMA_RTP_PAYLOAD_TYPE);
@@ -337,7 +434,7 @@ static void rtp_send_payload(const uint8_t *payload, int payload_size, int marke
     memcpy(packet + 12, payload, (size_t)payload_size);
     sendto(
         g_dist.rtp_fd, packet, (size_t)(12 + payload_size), MSG_DONTWAIT,
-        (struct sockaddr *)&g_dist.rtp_dest_addr, sizeof(g_dist.rtp_dest_addr));
+        (const struct sockaddr *)destination, sizeof(*destination));
 }
 
 static int find_start_code(const uint8_t *data, int size, int offset, int *start_code_len) {
@@ -370,13 +467,17 @@ static int annexb_has_nalu_type(const uint8_t *data, int size, int target_type) 
     return 0;
 }
 
-static void rtp_send_nalu(const uint8_t *nalu, int nalu_size, int marker) {
+static void rtp_send_nalu(
+        const uint8_t *nalu,
+        int nalu_size,
+        int marker,
+        const struct sockaddr_in *destination) {
     if (nalu_size <= 0 || g_dist.rtp_fd < 0 || !g_dist.rtp_enabled) {
         return;
     }
     const int single_payload_max = DMA_RTP_MTU - 12;
     if (nalu_size <= single_payload_max) {
-        rtp_send_payload(nalu, nalu_size, marker);
+        rtp_send_payload(nalu, nalu_size, marker, destination);
         return;
     }
 
@@ -393,7 +494,7 @@ static void rtp_send_nalu(const uint8_t *nalu, int nalu_size, int marker) {
         fu_packet[0] = fu_indicator;
         fu_packet[1] = (uint8_t)((first ? 0x80 : 0x00) | (last ? 0x40 : 0x00) | nal_type);
         memcpy(fu_packet + 2, nalu + offset, (size_t)chunk);
-        rtp_send_payload(fu_packet, chunk + 2, marker && last);
+        rtp_send_payload(fu_packet, chunk + 2, marker && last, destination);
         offset += chunk;
         first = 0;
     }
@@ -401,6 +502,11 @@ static void rtp_send_nalu(const uint8_t *nalu, int nalu_size, int marker) {
 
 static void rtp_write_frame(const uint8_t *data, int size) {
     if (g_dist.rtp_fd < 0 || !g_dist.rtp_enabled || size <= 0) {
+        return;
+    }
+
+    struct sockaddr_in destination;
+    if (!get_rtp_destination(&destination)) {
         return;
     }
 
@@ -413,12 +519,12 @@ static void rtp_write_frame(const uint8_t *data, int size) {
         const int nalu_end = (next >= 0) ? next : size;
         if (nalu_end > nalu_start) {
             const int marker = (next < 0);
-            rtp_send_nalu(data + nalu_start, nalu_end - nalu_start, marker);
+            rtp_send_nalu(data + nalu_start, nalu_end - nalu_start, marker, &destination);
         }
         start = next;
         sc_len = next_sc_len;
     }
-    g_dist.rtp_timestamp += 3000; /* 90kHz / 30fps */
+    g_dist.rtp_timestamp += DMA_RTP_TIMESTAMP_STEP;
 }
 
 int h264_distributor_start(void) {
@@ -429,6 +535,12 @@ int h264_distributor_start(void) {
     pthread_mutex_init(&g_dist.lock, NULL);
     g_dist.tcp_port = get_env_int("DMA_STREAM_TCP_PORT", 9999);
     g_dist.udp_port = get_env_int("DMA_STREAM_UDP_PORT", 10000);
+    g_dist.rtp_port = get_env_int("DMA_STREAM_RTP_PORT", 10002);
+    g_dist.rtp_client_timeout_ms = get_env_int(
+        "DMA_STREAM_RTP_CLIENT_TIMEOUT_MS", DMA_RTP_CLIENT_TIMEOUT_MS);
+    if (g_dist.rtp_client_timeout_ms <= 0) {
+        g_dist.rtp_client_timeout_ms = DMA_RTP_CLIENT_TIMEOUT_MS;
+    }
     g_dist.running = 1;
 
     if (g_dist.tcp_port > 0) {
@@ -454,22 +566,34 @@ int h264_distributor_start(void) {
     }
 
     const char *rtp_host = getenv("DMA_STREAM_RTP_HOST");
-    const int rtp_port = get_env_int("DMA_STREAM_RTP_PORT", 10002);
-    if (rtp_host && *rtp_host && rtp_port > 0) {
-        g_dist.rtp_fd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (g_dist.rtp_port > 0) {
+        g_dist.rtp_fd = create_udp_socket(g_dist.rtp_port);
         if (g_dist.rtp_fd >= 0) {
-            memset(&g_dist.rtp_dest_addr, 0, sizeof(g_dist.rtp_dest_addr));
-            g_dist.rtp_dest_addr.sin_family = AF_INET;
-            g_dist.rtp_dest_addr.sin_port = htons((uint16_t)rtp_port);
-            if (inet_pton(AF_INET, rtp_host, &g_dist.rtp_dest_addr.sin_addr) == 1) {
-                set_nonblock(g_dist.rtp_fd);
-                g_dist.rtp_enabled = 1;
-                printf("[h264-distributor] RTP sending to %s:%d\n", rtp_host, rtp_port);
-            } else {
-                close(g_dist.rtp_fd);
-                g_dist.rtp_fd = -1;
-                printf("[h264-distributor] invalid DMA_STREAM_RTP_HOST=%s\n", rtp_host);
+            g_dist.rtp_enabled = 1;
+            pthread_create(&g_dist.rtp_thread, NULL, rtp_registration_thread, NULL);
+            g_dist.rtp_thread_started = 1;
+            printf("[h264-distributor] RTP waiting for client registration on 0.0.0.0:%d\n",
+                   g_dist.rtp_port);
+
+            if (rtp_host && *rtp_host) {
+                memset(&g_dist.rtp_static_dest_addr, 0, sizeof(g_dist.rtp_static_dest_addr));
+                g_dist.rtp_static_dest_addr.sin_family = AF_INET;
+                g_dist.rtp_static_dest_addr.sin_port = htons((uint16_t)g_dist.rtp_port);
+                if (inet_pton(
+                        AF_INET, rtp_host,
+                        &g_dist.rtp_static_dest_addr.sin_addr) == 1) {
+                    g_dist.rtp_static_dest_valid = 1;
+                    printf("[h264-distributor] RTP static fallback %s:%d\n",
+                           rtp_host, g_dist.rtp_port);
+                } else {
+                    g_dist.rtp_static_dest_valid = 0;
+                    printf("[h264-distributor] invalid DMA_STREAM_RTP_HOST=%s; registration mode remains active\n",
+                           rtp_host);
+                }
             }
+        } else {
+            printf("[h264-distributor] failed to bind RTP registration port %d\n",
+                   g_dist.rtp_port);
         }
     }
     return 0;
@@ -567,11 +691,19 @@ void h264_distributor_stop(void) {
         pthread_join(g_dist.udp_thread, NULL);
         g_dist.udp_thread_started = 0;
     }
+    if (g_dist.rtp_thread_started) {
+        pthread_join(g_dist.rtp_thread, NULL);
+        g_dist.rtp_thread_started = 0;
+    }
     pthread_mutex_lock(&g_dist.lock);
     close_tcp_client_locked();
     free(g_dist.h264_header);
     g_dist.h264_header = NULL;
     g_dist.h264_header_size = 0;
+    g_dist.udp_client_valid = 0;
+    g_dist.rtp_client_valid = 0;
+    g_dist.rtp_static_dest_valid = 0;
+    g_dist.rtp_enabled = 0;
     pthread_mutex_unlock(&g_dist.lock);
     pthread_mutex_destroy(&g_dist.lock);
 }

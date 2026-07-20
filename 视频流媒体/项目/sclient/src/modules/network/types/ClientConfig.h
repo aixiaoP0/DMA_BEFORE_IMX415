@@ -26,6 +26,8 @@ struct ClientConfig {
     // RTP 参数
     int rtp_payload_type = -1;  /**< RTP 载荷类型（从 SDP 解析） */
     int rtp_clock_rate = 0;     /**< RTP 时钟频率（从 SDP 解析） */
+    std::string rtp_server_host; /**< RTP注册服务器地址；为空时保持被动监听模式 */
+    int rtp_server_port = 10002; /**< RTP注册服务器端口 */
 
     // UDP 抖动缓冲配置
     bool udp_jitter_buffer_enabled = true;               /**< 是否启用抖动缓冲 */

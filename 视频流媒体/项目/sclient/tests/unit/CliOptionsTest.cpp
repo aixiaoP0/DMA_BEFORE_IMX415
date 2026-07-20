@@ -175,6 +175,35 @@ bool TestClientOptionParsesRendererFlags() {
     return Expect(window_title == "demo", "expected window title to be updated");
 }
 
+bool TestParseRtpRegistrationOptions() {
+    sclient::ClientConfig config;
+    sclient::DecodeBackend decode_backend = sclient::DecodeBackend::kAuto;
+    ArgvStorage args({
+            "cli_options_test",
+            "--rtp-server-host", "192.168.137.99",
+            "--rtp-server-port", "10002"});
+
+    int index = 1;
+    sclient::CliParseResult result = sclient::ParseSharedStreamOption(
+            args.argc(), args.data(), &index, &config, &decode_backend);
+    if (!Expect(result.handled && result.success, "expected RTP server host to parse")) {
+        return false;
+    }
+    if (!Expect(
+            config.rtp_server_host == "192.168.137.99",
+            "expected RTP server host to be updated")) {
+        return false;
+    }
+
+    index = 3;
+    result = sclient::ParseSharedStreamOption(
+            args.argc(), args.data(), &index, &config, &decode_backend);
+    if (!Expect(result.handled && result.success, "expected RTP server port to parse")) {
+        return false;
+    }
+    return Expect(config.rtp_server_port == 10002, "expected RTP server port to be updated");
+}
+
 bool TestUdpBenchmarkSpecificOptions() {
     sclient::ClientConfig config;
     config.transport = "udp";
@@ -297,6 +326,9 @@ int main() {
         return 1;
     }
     if (!TestClientOptionParsesRendererFlags()) {
+        return 1;
+    }
+    if (!TestParseRtpRegistrationOptions()) {
         return 1;
     }
     if (!TestUdpBenchmarkSpecificOptions()) {

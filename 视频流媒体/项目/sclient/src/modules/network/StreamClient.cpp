@@ -10,6 +10,7 @@ using network_internal::MonotonicNowNs;
 StreamClient::StreamClient()
         : socket_fd_(-1),
           running_(false),
+          next_rtp_frame_sequence_(0),
           last_completed_frame_sequence_(0),
           has_last_completed_frame_sequence_(false),
           next_jitter_buffer_sequence_(0),
@@ -74,6 +75,35 @@ bool StreamClient::Connect(const ClientConfig &config, std::string *error_messag
             Close();
             return false;
         }
+
+        // 注册模式下，将同一个RTP接收socket连接到板端注册端口。
+        // 后续keepalive和RTP接收共用此socket，确保NAT映射的来源端口一致。
+        if (!config_.rtp_server_host.empty()) {
+            sockaddr_in server_address{};
+            server_address.sin_family = AF_INET;
+            server_address.sin_port =
+                    htons(static_cast<std::uint16_t>(config_.rtp_server_port));
+            if (inet_pton(
+                    AF_INET,
+                    config_.rtp_server_host.c_str(),
+                    &server_address.sin_addr) != 1) {
+                if (error_message != nullptr) {
+                    *error_message = "invalid RTP server host: " + config_.rtp_server_host;
+                }
+                Close();
+                return false;
+            }
+            if (connect(
+                    socket_fd_,
+                    reinterpret_cast<sockaddr *>(&server_address),
+                    sizeof(server_address)) != 0) {
+                if (error_message != nullptr) {
+                    *error_message = BuildSocketError("failed to connect RTP registration server");
+                }
+                Close();
+                return false;
+            }
+        }
     } else if (connect(socket_fd_, reinterpret_cast<sockaddr *>(&address), sizeof(address)) != 0) {
         if (error_message != nullptr) {
             *error_message = BuildSocketError("failed to connect");
@@ -99,7 +129,7 @@ bool StreamClient::Connect(const ClientConfig &config, std::string *error_messag
     }
 
     running_ = true;
-    if (config_.transport != "rtp") {
+    if (config_.transport != "rtp" || !config_.rtp_server_host.empty()) {
         if (!SendKeepAlive()) {
             if (error_message != nullptr) {
                 *error_message = BuildSocketError("failed to send initial keepalive");
@@ -165,6 +195,7 @@ void StreamClient::Close() {
 
     udp_assemblies_.clear();
     udp_jitter_buffer_.clear();
+    next_rtp_frame_sequence_ = 0;
     ResetUdpState();
     ResetRtpState();
 }

@@ -63,6 +63,7 @@ bool StreamClient::ReceiveRtpFrame(ReceivedFrame *frame, std::string *error_mess
             rtp_frame_assembly_.timestamp != header_fields.timestamp ||
             rtp_frame_assembly_.ssrc != header_fields.ssrc) {
             rtp_frame_assembly_.payload.clear();
+            rtp_frame_assembly_.frame_sequence = next_rtp_frame_sequence_++;
             rtp_frame_assembly_.timestamp = header_fields.timestamp;
             rtp_frame_assembly_.ssrc = header_fields.ssrc;
             rtp_frame_assembly_.next_sequence_number = static_cast<std::uint16_t>(header_fields.sequence_number + 1);
@@ -165,7 +166,7 @@ bool StreamClient::ReceiveRtpFrame(ReceivedFrame *frame, std::string *error_mess
             completed_frame.header.message_type = static_cast<std::uint16_t>(protocol::MessageType::kAvStream);
             completed_frame.header.payload_length = static_cast<std::uint32_t>(rtp_frame_assembly_.payload.size());
             std::memset(&completed_frame.metadata, 0, sizeof(completed_frame.metadata));
-            completed_frame.metadata.sequence = static_cast<std::uint64_t>(rtp_frame_assembly_.timestamp);
+            completed_frame.metadata.sequence = rtp_frame_assembly_.frame_sequence;
             completed_frame.sender_metadata_available = false;
             if (config_.expect_metadata &&
                 rtp_frame_assembly_.sender_metadata_available &&

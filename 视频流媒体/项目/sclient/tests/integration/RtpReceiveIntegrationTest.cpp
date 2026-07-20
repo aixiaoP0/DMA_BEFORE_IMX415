@@ -13,6 +13,7 @@
 #include "common/net/H264AnnexB.h"
 #include "common/metrics/LatencyStats.h"
 #include "common/net/RtpProtocol.h"
+#include "common/protocol/Protocol.h"
 #include "modules/network/StreamClient.h"
 #include "tests/support/MonotonicClock.h"
 #include "tests/support/TestAssertions.h"
@@ -38,6 +39,70 @@ public:
                 *error_message = "failed to create RTP loopback socket";
             }
             return false;
+        }
+        return true;
+    }
+
+    bool BindLoopback(std::string *error_message) {
+        if (!Start(error_message)) {
+            return false;
+        }
+
+        sockaddr_in address{};
+        address.sin_family = AF_INET;
+        address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+        address.sin_port = 0;
+        if (bind(
+                socket_fd_,
+                reinterpret_cast<const sockaddr *>(&address),
+                sizeof(address)) != 0) {
+            if (error_message != nullptr) {
+                *error_message = "failed to bind RTP registration listener";
+            }
+            Close();
+            return false;
+        }
+
+        timeval timeout{};
+        timeout.tv_sec = 2;
+        setsockopt(socket_fd_, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+        return true;
+    }
+
+    int BoundPort() const {
+        sockaddr_in address{};
+        socklen_t address_length = sizeof(address);
+        if (socket_fd_ < 0 ||
+            getsockname(
+                    socket_fd_,
+                    reinterpret_cast<sockaddr *>(&address),
+                    &address_length) != 0) {
+            return 0;
+        }
+        return static_cast<int>(ntohs(address.sin_port));
+    }
+
+    bool ReceiveRegistration(
+            sclient::protocol::MessageHeader *header,
+            int *source_port,
+            std::string *error_message) {
+        sockaddr_in source_address{};
+        socklen_t source_length = sizeof(source_address);
+        const ssize_t received = recvfrom(
+                socket_fd_,
+                header,
+                sizeof(*header),
+                0,
+                reinterpret_cast<sockaddr *>(&source_address),
+                &source_length);
+        if (received != static_cast<ssize_t>(sizeof(*header))) {
+            if (error_message != nullptr) {
+                *error_message = "failed to receive RTP registration keepalive";
+            }
+            return false;
+        }
+        if (source_port != nullptr) {
+            *source_port = static_cast<int>(ntohs(source_address.sin_port));
         }
         return true;
     }
@@ -196,8 +261,10 @@ bool TestReassemblesSingleNaluAndFuAFrame() {
     sclient::common::net::AppendAnnexBNalu(idr_nalu.data(), idr_nalu.size(), &expected_frame);
 
     const bool payload_ok = frame.payload == expected_frame;
+    const bool sequence_ok = frame.metadata.sequence == 0;
     client.Close();
-    return Expect(payload_ok, "expected RTP depacketizer to reconstruct Annex-B H264 frame");
+    return Expect(payload_ok, "expected RTP depacketizer to reconstruct Annex-B H264 frame") &&
+           Expect(sequence_ok, "expected first completed RTP frame to use sequence zero");
 }
 
 bool TestDropsDamagedFrameAndResyncs() {
@@ -256,8 +323,10 @@ bool TestDropsDamagedFrameAndResyncs() {
     std::vector<std::uint8_t> expected;
     sclient::common::net::AppendAnnexBNalu(next_frame_nalu.data(), next_frame_nalu.size(), &expected);
     const bool payload_ok = frame.payload == expected;
+    const bool sequence_ok = frame.metadata.sequence == 1;
     client.Close();
-    return Expect(payload_ok, "expected RTP receiver to drop damaged frame and resume on next timestamp");
+    return Expect(payload_ok, "expected RTP receiver to drop damaged frame and resume on next timestamp") &&
+           Expect(sequence_ok, "expected damaged RTP frame to consume one continuous frame sequence");
 }
 
 bool TestRestoresSenderMetadataFromRtpExtension() {
@@ -450,6 +519,48 @@ bool TestFallsBackWhenLatencyExtensionIsInvalid() {
            Expect(frame.metadata.transport_send_timestamp_ns == 0, "expected invalid extension to leave send timestamp unset");
 }
 
+bool TestRegistrationKeepaliveUsesRtpReceiveSocket() {
+    sclient::StreamClient client;
+    RtpLoopbackServer server;
+    std::string error_message;
+
+    if (!server.BindLoopback(&error_message)) {
+        return Expect(false, error_message);
+    }
+
+    sclient::ClientConfig config;
+    config.transport = "rtp";
+    config.host = "127.0.0.1";
+    config.port = 0;
+    config.rtp_server_host = "127.0.0.1";
+    config.rtp_server_port = server.BoundPort();
+    config.expect_metadata = false;
+
+    if (!client.Connect(config, &error_message)) {
+        return Expect(false, "failed to start RTP registration client: " + error_message);
+    }
+
+    sclient::protocol::MessageHeader header{};
+    int source_port = 0;
+    if (!server.ReceiveRegistration(&header, &source_port, &error_message)) {
+        client.Close();
+        return Expect(false, error_message);
+    }
+
+    const int receive_port = client.BoundPort();
+    client.Close();
+    return Expect(
+                   sclient::protocol::HasValidMessageMagic(header),
+                   "expected RTP keepalive magic") &&
+           Expect(
+                   header.message_type ==
+                           static_cast<std::uint16_t>(sclient::protocol::MessageType::kKeepAlive),
+                   "expected RTP registration keepalive message type") &&
+           Expect(
+                   source_port == receive_port,
+                   "expected RTP keepalive and RTP receive path to use the same socket");
+}
+
 }  // namespace
 
 int main() {
@@ -466,6 +577,9 @@ int main() {
         return 1;
     }
     if (!TestFallsBackWhenLatencyExtensionIsInvalid()) {
+        return 1;
+    }
+    if (!TestRegistrationKeepaliveUsesRtpReceiveSocket()) {
         return 1;
     }
     return 0;

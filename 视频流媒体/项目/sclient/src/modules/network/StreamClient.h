@@ -102,6 +102,7 @@ private:
      */
     struct RtpFrameAssembly {
         std::vector<std::uint8_t> payload;                /**< 组装后的帧数据 */
+        std::uint64_t frame_sequence = 0;                 /**< 客户端生成的连续 RTP 帧序号 */
         std::uint32_t timestamp = 0;                      /**< RTP 时间戳（标识同一帧） */
         std::uint32_t ssrc = 0;                           /**< 同步源标识 */
         std::uint16_t next_sequence_number = 0;           /**< 期望的下一个序列号 */
@@ -183,6 +184,7 @@ private:
     std::map<std::uint64_t, UdpFrameAssembly> udp_assemblies_;  /**< UDP 帧组装表 */
     std::map<std::uint64_t, BufferedUdpFrame> udp_jitter_buffer_; /**< UDP 抖动缓冲区 */
     RtpFrameAssembly rtp_frame_assembly_;           /**< RTP 帧组装状态 */
+    std::uint64_t next_rtp_frame_sequence_;         /**< 下一个客户端 RTP 帧序号 */
     std::uint64_t last_completed_frame_sequence_;   /**< 上一个完成的帧序列号 */
     bool has_last_completed_frame_sequence_;
     std::uint64_t next_jitter_buffer_sequence_;     /**< 抖动缓冲区下一个期望序列号 */

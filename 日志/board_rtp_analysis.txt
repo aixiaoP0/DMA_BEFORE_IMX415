@@ -1,0 +1,4 @@
+========================= RTP Streams ========================
+   Start time      End time     Src IP addr  Port    Dest IP addr  Port       SSRC          Payload  Pkts         Lost   Min Delta(ms)  Mean Delta(ms)   Max Delta(ms)  Min Jitter(ms) Mean Jitter(ms)  Max Jitter(ms) Problems?
+     0.019781     34.268516  192.168.137.99 10002   192.168.137.1 54372 0x35880001       RTPType-96 26086     0 (0.0%)           0.003           1.423          35.603          -1.000           0.000           0.000 
+==============================================================
